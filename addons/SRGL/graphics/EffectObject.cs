@@ -25,7 +25,7 @@ public abstract partial class EffectObject : Node2D, IPoolable
     {
         Position = judgementPoint.Position;
 
-        OnPlay(judgement, judgementPoint);
+        OnPlay(judgement);
         _t.Start();
     }
 
@@ -33,9 +33,7 @@ public abstract partial class EffectObject : Node2D, IPoolable
     /// Play your animation here.<br/>
     /// [CAUTION] Before playing a animation, stop the animation first.
     /// </summary>
-    /// <param name="judgement"></param>
-    /// <param name="judgementPoint"></param>
-    protected abstract void OnPlay(Judgement judgement, Node2D judgementPoint);
+    protected abstract void OnPlay(Judgement judgement);
 
     // ======== implementation of IPoolable ========
     public event Action<IPoolable> ReturnToPool;
