@@ -57,7 +57,7 @@ git clone https://github.com/joung2321/SRGL.git
 	]
 }
 ```
-채보 파일 설명: 작성예정 (일단 지금은 RawChart.cs의 주석을 참고해주세요.)
+채보 파일 설명: 작성예정 (일단 지금은 [RawChart.cs](https://github.com/joung2321/SRGL/blob/4365b63be85c0375e85281959577b81c5a9699c6/addons/SRGL/chart/RawChart.cs)의 주석을 참고해주세요.)
 ### 3. 게임 로직 구현
 ```csharp
 using Godot;
