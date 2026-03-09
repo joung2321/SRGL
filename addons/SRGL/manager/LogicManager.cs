@@ -24,47 +24,16 @@ public partial class LogicManager: Node
     public event Action<int, NoteVisualData> NoteSpawned;
     public event Action<double> NotePositionUpdated;
 
-    // ======== wrapping of SongPlayer ========
-    public bool Playing { get { return _sp.Playing; } }
-
-    public event Action Finished
-    {
-        add { _sp.Finished += value; }
-        remove { _sp.Finished -= value; }
-    }
-    // ======== end ========
-
-    // ======== wrapping of events from JudgementManager ========
-    public event Action<Judgement> NoteJudged
-    {
-        add { _jq.NoteJudged += value; }
-        remove { _jq.NoteJudged -= value; }
-    }
-
-    public event Action<int> NoteDespawned
-    {
-        add { _jq.NoteDespawned += value; }
-        remove { _jq.NoteDespawned -= value; }
-    }
-
-    public event Action<int, NoteState> NoteStateChanged
-    {
-        add { _jq.NoteStateChanged += value; }
-        remove { _jq.NoteStateChanged -= value; }
-    }
-    // ======== end ========
-    
-    public LogicManager(Chart c, TimingWindow tw, ButtonStateMachine bsm, long userOffsetUsec)
+    public LogicManager(Chart c, SongPlayer sp, JudgementQueue jq, ButtonStateMachine bsm, long userOffsetUsec)
     {
         // chart
         _c = c;
         
         // audio
-        _sp = new SongPlayer(this);
-        _sp.LoadSong(_c.AudioPath);
+        _sp = sp;
 
         // judgement
-        _jq = new JudgementQueue(_c.LaneCount, tw);
+        _jq = jq;
 
         // input
         InputManager im = new InputManager(bsm);
@@ -75,17 +44,8 @@ public partial class LogicManager: Node
         _audioLatencyUsec = (long)Math.Round(AudioServer.GetOutputLatency() * 1_000_000);
         _userOffsetUsec = userOffsetUsec;
     }
-
-    public void AddStrategy(int logicType, IJudgementStrategy strategy)
-    {
-        _jq.AddStrategy(logicType, strategy);
-    }
-
-    public void Resume() { _sp.Resume(); }
-
-    public void Pause() { _sp.Pause(); }
     
-    public void Stop()
+    public void Init()
     {
         _sp.Stop();
         _jq.Clear();

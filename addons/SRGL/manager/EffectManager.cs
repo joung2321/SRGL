@@ -43,8 +43,8 @@ public class EffectManager
         }
     }
 
-    public void Listen(LogicManager lm)
+    public void Listen(JudgementQueue jq)
     {
-        lm.NoteJudged += PlayEffect;
+        jq.NoteJudged += PlayEffect;
     }
 }

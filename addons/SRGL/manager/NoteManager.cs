@@ -78,11 +78,12 @@ public class NoteManager
         _spawnedNotes.Clear();
     }
 
-    public void Listen(LogicManager lm)
+    public void Listen(JudgementQueue jq, LogicManager lm)
     {
+        jq.NoteStateChanged += ChangeNoteState;
+        jq.NoteDespawned += DespawnNote;
+
         lm.NoteSpawned += SpawnNote;
         lm.NotePositionUpdated += UpdateNotePosition;
-        lm.NoteStateChanged += ChangeNoteState;
-        lm.NoteDespawned += DespawnNote;
     }
 }
