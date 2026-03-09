@@ -74,12 +74,20 @@ public partial class Main : Node
         RawChart rc = RawChartLoader.Load("res://chart_quickStart.json");
         Chart c = new Chart(rc);
 
+        // 음원 로드
+        SongPlayer sp = new SongPlayer(this);
+        sp.LoadSong(c.AudioPath);
+
         // 타이밍 윈도우 설정 (Arcaea 스타일)
         TimingWindow tw = new TimingWindow();
         tw.Partition(25 * 1_000); // pure (세부)
         tw.Partition(50 * 1_000); // pure
         tw.Partition(100 * 1_000); // far
         tw.RadiusUsec = 120 * 1_000; // lost
+
+        // 판정 로직 정의
+        JudgementQueue jq = new JudgementQueue(c.LaneCount, tw);
+        jq.AddStrategy(0, new TapNoteJS()); // 채보 파일에서, LogicType의 기본값은 0
 
         // 입력 시스템 설정
         StandardBSM bsm = new StandardBSM();
@@ -92,13 +100,12 @@ public partial class Main : Node
         long userOffsetUsec = 0;
 
         // 게임 로직 생성
-        LogicManager lm = new LogicManager(c, tw, bsm, userOffsetUsec);
-        lm.AddStrategy(0, new TapNoteJS()); // 채보 파일에서, LogicType의 기본값은 0
-        lm.NoteJudged += OnNoteJudged; // 판정 이벤트 구독
+        LogicManager lm = new LogicManager(c, sp, jq, bsm, userOffsetUsec);
+        jq.NoteJudged += OnNoteJudged; // 판정 이벤트 구독
         AddChild(lm); // 게임 로직을 SceneTree에 추가
 
         // 게임플레이 시작
-        lm.Resume();
+        sp.Resume();
     }
 
     // 판정 이름 (Arcaea 스타일)
