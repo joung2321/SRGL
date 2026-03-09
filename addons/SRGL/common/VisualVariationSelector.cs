@@ -45,8 +45,8 @@ public static class VisualVariationSelector
         if(laneIndex < 0) { return -1; }
         else
         {
-            laneIndex = laneIndex % 6;
-            return ((laneIndex & 0b101) != 0)? 1: 0; // [NOTE] 0b101 = 1 | 4
+            laneIndex = laneIndex % 3;
+            return laneIndex % 2;
         }
     }
 }
