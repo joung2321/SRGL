@@ -6,6 +6,9 @@ using SRGL.Common;
 // judgement strategy for tap note
 public class TapNoteJS : IJudgementStrategy
 {
+    public const int CONTEXT_HIT  = 0;
+    public const int CONTEXT_MISS = 1;
+
     public bool OnPress(long timeUsec, NoteLogicInstance nli, ActiveNoteTracker tracker, TimingWindow tw, Action<Judgement> invokeNoteJudged)
     {
         long errorUsec = TimingWindow.CalculateErrorUsec(nli.Data.StartTimeUsec, timeUsec);
@@ -18,7 +21,7 @@ public class TapNoteJS : IJudgementStrategy
                 PartitionIndex = tw.GetPartitionIndex(errorUsec),
                 Count = 1,
                 Lane = nli.Data.Lane,
-                Context = 0
+                Context = CONTEXT_HIT
             };
             invokeNoteJudged(j);
 
@@ -42,7 +45,7 @@ public class TapNoteJS : IJudgementStrategy
                 PartitionIndex = tw.GetLastPartitionIndex(),
                 Count = 1,
                 Lane = nli.Data.Lane,
-                Context = -1
+                Context = CONTEXT_MISS
             };
             invokeNoteJudged(j);
 
