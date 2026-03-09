@@ -15,7 +15,7 @@ public class RawChart
     public long PPQN { get; init; } // pulses per quarter note
     public long EndOfTrack { get; init; } // length of this chart (PPQN value)
     public int LaneCount { get; init; } // the number of logical lanes
-    // public long OffsetUsec { get; init; } // audio offset [us]
+    public long OffsetUsec { get; init; } // audio offset [us]
 
     public RawTempo[] Tempos { get; init; }
     public RawTimeSignature[] TimeSignatures { get; init; }

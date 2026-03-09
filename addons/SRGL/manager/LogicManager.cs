@@ -97,7 +97,7 @@ public partial class LogicManager: Node
 
     public override void _Process(double delta)
     {
-        long timeUsec = _sp.GetSongTimeUsec((long)Time.GetTicksUsec()) - _audioLatencyUsec - _userOffsetUsec;
+        long timeUsec = _sp.GetSongTimeUsec((long)Time.GetTicksUsec()) - _audioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
         double position = _c.TimeToPosition((double)timeUsec / 1_000_000, ref _svIndex);
         
         // notes

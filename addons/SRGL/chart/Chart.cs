@@ -13,6 +13,7 @@ public class Chart
     private long _ppqn;
     public int LaneCount { get; private set; }
     public int TotalCombo { get; private set; }
+    public long OffsetUsec { get; private set; }
 
     private Tempo[] _tempos;
     private TimeSignature[] _timeSignatures;
@@ -32,6 +33,7 @@ public class Chart
 
         _ppqn = rawChart.PPQN;
         LaneCount = rawChart.LaneCount;
+        OffsetUsec = rawChart.OffsetUsec;
 
         _timeSignatures = Preprocessor.PreprocessTimeSignatures(rawChart.TimeSignatures, rawChart.PPQN);
         _tempos = Preprocessor.PreprocessTempos(rawChart.Tempos, rawChart.PPQN);
