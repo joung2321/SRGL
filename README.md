@@ -26,35 +26,35 @@ git clone https://github.com/joung2321/SRGL.git
 채보 파일로 사용할 **chart_quickStart.json**을 작성합니다.
 ```json
 {
-    "AudioPath": "res://quickStart.ogg",
+	"AudioPath": "res://quickStart.ogg",
 
-    "PPQN": 10,
-    "EndOfTrack": 200,
-    "LaneCount": 4,
-    "OffsetUsec": 2000,
+	"PPQN": 10,
+	"EndOfTrack": 200,
+	"LaneCount": 4,
+	"OffsetUsec": 2000,
 
-    "TimeSignatures": [ {"s":0, "n":4, "d":4} ],
-    "Tempos":         [ {"s":0, "m":1, "i":0} ],
-    "SvChanges":      [ {"s":0, "m":1} ],
+	"Tempos":         [ {"s":0, "b":120} ],
+	"TimeSignatures": [ {"s":0, "n":4, "d":4} ],
+	"SvChanges":      [ {"s":0, "m":1} ],
 
-    "Notes":
-    [
-        {"s":10, "l":0},
-        {"s":20, "l":0},
-        {"s":30, "l":1},
+	"Notes":
+	[
+		{"s":10, "l":0},
+		{"s":20, "l":0},
+		{"s":30, "l":1},
 
-        {"s":50, "l":1},
-        {"s":60, "l":1},
-        {"s":70, "l":2},
+		{"s":50, "l":1},
+		{"s":60, "l":1},
+		{"s":70, "l":2},
 
-        {"s":90,  "l":2},
-        {"s":100, "l":2},
-        {"s":110, "l":3},
+		{"s":90,  "l":2},
+		{"s":100, "l":2},
+		{"s":110, "l":3},
 
-        {"s":130, "l":3},
-        {"s":140, "l":3},
-        {"s":150, "l":0}
-    ]
+		{"s":130, "l":3},
+		{"s":140, "l":3},
+		{"s":150, "l":0}
+	]
 }
 ```
 채보 파일 설명: 작성예정 (일단 지금은 RawChart.cs의 주석을 참고해주세요.)
