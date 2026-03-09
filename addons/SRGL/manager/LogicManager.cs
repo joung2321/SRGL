@@ -91,7 +91,7 @@ public partial class LogicManager: Node
     {
         if(_sp.Playing)
         {
-            long timeUsec = _sp.GetSongTimeUsec(ticksUsec) - _audioLatencyUsec - _userOffsetUsec;
+            long timeUsec = _sp.GetSongTimeUsec(ticksUsec) - _audioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
 
             if(pressed) { _jq.Press(timeUsec, laneIndex); }
             else { _jq.Release(timeUsec, laneIndex); }
