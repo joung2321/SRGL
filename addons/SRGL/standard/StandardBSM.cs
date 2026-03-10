@@ -1,4 +1,4 @@
-namespace SRGL;
+namespace SRGL.Standard;
 
 using Godot;
 using System.Collections.Generic;

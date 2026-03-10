@@ -1,3 +1,5 @@
+namespace SRGL.Standard;
+
 using Godot;
 
 using SRGL;
