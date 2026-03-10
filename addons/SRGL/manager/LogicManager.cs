@@ -13,8 +13,7 @@ public partial class LogicManager: Node
     private int _svIndex;
     private int _noteIndex;
     private int _barlineIndex;
-    
-    private long _audioLatencyUsec;
+
     private long _userOffsetUsec;
 
     /// <summary>default value: 3_000_000 us (= 3 sec)</summary>
@@ -41,7 +40,6 @@ public partial class LogicManager: Node
         AddChild(il);
 
         // options
-        _audioLatencyUsec = (long)Math.Round(AudioServer.GetOutputLatency() * 1_000_000);
         _userOffsetUsec = userOffsetUsec;
     }
     
@@ -57,7 +55,7 @@ public partial class LogicManager: Node
 
     public override void _Process(double delta)
     {
-        long timeUsec = _sp.GetSongTimeUsec((long)Time.GetTicksUsec()) - _audioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
+        long timeUsec = _sp.GetSongTimeUsec((long)Time.GetTicksUsec()) - _sp.AudioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
         double position = _c.TimeToPosition((double)timeUsec / 1_000_000, ref _svIndex);
         
         // notes
@@ -91,7 +89,7 @@ public partial class LogicManager: Node
     {
         if(_sp.Playing)
         {
-            long timeUsec = _sp.GetSongTimeUsec(ticksUsec) - _audioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
+            long timeUsec = _sp.GetSongTimeUsec(ticksUsec) - _sp.AudioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
 
             if(pressed) { _jq.Press(timeUsec, laneIndex); }
             else { _jq.Release(timeUsec, laneIndex); }

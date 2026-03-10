@@ -16,6 +16,8 @@ public class SongPlayer
     private long _pausedPositionUsec; // conversion of _pausedPosition [us]
     private bool _isFinished; // set true when _asp.Finished is fired
 
+    public long AudioLatencyUsec { get; private set; }
+
     /// <summary>
     /// [CAUTION] Playing is a distinct variable from _asp.Playing.
     /// </summary>
@@ -56,6 +58,9 @@ public class SongPlayer
     {
         if(Playing) { return; }
         Playing = true;
+
+        // cache audio latency
+        AudioLatencyUsec = (long)Math.Round(AudioServer.GetOutputLatency() * 1_000_000);
         
         long ticksUsec = (long)Time.GetTicksUsec();
         double mixDelay = AudioServer.GetTimeToNextMix();
