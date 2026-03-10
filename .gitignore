@@ -19,3 +19,6 @@ mono_crash.*.json
 
 # Keep assets directory clean
 assets/*.import
+
+# Ignore symbolic link
+demo/QuickStart/addons
