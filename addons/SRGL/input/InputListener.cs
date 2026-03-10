@@ -7,10 +7,10 @@ public partial class InputListener : Node
 {
     private InputMapper _im;
 
-    public InputListener(InputMapper bsm)
+    public InputListener(InputMapper im)
     {
-        ArgumentNullException.ThrowIfNull(bsm);
-        _im = bsm;
+        ArgumentNullException.ThrowIfNull(im);
+        _im = im;
     }
 
     public sealed override void _UnhandledKeyInput(InputEvent @event)

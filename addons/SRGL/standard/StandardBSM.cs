@@ -3,7 +3,7 @@ namespace SRGL.Standard;
 using Godot;
 using System.Collections.Generic;
 
-// input manager for standard VSRG (Vertical Scrolling Rhythm Game)
+// input mapper for standard VSRG (Vertical Scrolling Rhythm Game)
 public partial class StandardInputMapper : InputMapper
 {
     private Dictionary<Key, int> _keyMap;
