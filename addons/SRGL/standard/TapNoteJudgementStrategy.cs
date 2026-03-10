@@ -4,7 +4,7 @@ using System;
 using SRGL.Common;
 
 // judgement strategy for tap note
-public class TapNoteJS : IJudgementStrategy
+public class TapNoteJudgementStrategy : IJudgementStrategy
 {
     public const int CONTEXT_HIT  = 0;
     public const int CONTEXT_MISS = 1;
