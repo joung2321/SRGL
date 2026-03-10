@@ -19,7 +19,7 @@ public partial class ComboCounter : Label
         Text = string.Empty;
     }
 
-    public void OnJudged(Judgement judgement)
+    public void OnNoteJudged(Judgement judgement)
     {
         if(judgement.PartitionIndex < ComboBreakPartitionIndex)
         {
