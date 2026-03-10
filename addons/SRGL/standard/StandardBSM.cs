@@ -4,11 +4,11 @@ using Godot;
 using System.Collections.Generic;
 
 // input manager for standard VSRG (Vertical Scrolling Rhythm Game)
-public partial class StandardBSM : ButtonStateMachine
+public partial class StandardInputMapper : InputMapper
 {
     private Dictionary<Key, int> _keyMap;
 
-    public StandardBSM() { _keyMap = new Dictionary<Key, int>(); }
+    public StandardInputMapper() { _keyMap = new Dictionary<Key, int>(); }
     
     public void AssignKey(Key keycode, int laneIndex)
     {

@@ -2,14 +2,14 @@ namespace SRGL;
 
 using Godot;
 
-public abstract class ButtonStateMachine
+public abstract class InputMapper
 {
-    public delegate void ButtonEventHandler(long ticksUsec, int laneIndex, bool pressed);
-    public event ButtonEventHandler ButtonEvent;
+    public delegate void LaneInputEventHandler(long ticksUsec, int laneIndex, bool pressed);
+    public event LaneInputEventHandler LaneInputChanged;
 
     protected void InvokeButtonEvent(long ticksUsec, int laneIndex, bool pressed)
     {
-        ButtonEvent?.Invoke(ticksUsec, laneIndex, pressed);
+        LaneInputChanged?.Invoke(ticksUsec, laneIndex, pressed);
     }
 
     /// <summary>

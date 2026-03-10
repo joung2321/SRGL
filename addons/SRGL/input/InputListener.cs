@@ -3,14 +3,14 @@ namespace SRGL;
 using Godot;
 using System;
 
-public partial class InputManager : Node
+public partial class InputListener : Node
 {
-    private ButtonStateMachine _bsm;
+    private InputMapper _im;
 
-    public InputManager(ButtonStateMachine bsm)
+    public InputListener(InputMapper bsm)
     {
         ArgumentNullException.ThrowIfNull(bsm);
-        _bsm = bsm;
+        _im = bsm;
     }
 
     public sealed override void _UnhandledKeyInput(InputEvent @event)
@@ -23,7 +23,7 @@ public partial class InputManager : Node
             // ignore echo
             if(ek.Echo) { return; }
 
-            if(_bsm.ReadKeyInput(ticksUsec, ek.Keycode, ek.Pressed))
+            if(_im.ReadKeyInput(ticksUsec, ek.Keycode, ek.Pressed))
             { GetViewport().SetInputAsHandled(); }
         }
     }
@@ -37,7 +37,7 @@ public partial class InputManager : Node
 
         if(@event is InputEventMouseButton emb)
         {
-            if(_bsm.ReadMouseButtonInput(ticksUsec, emb.ButtonIndex, emb.Pressed))
+            if(_im.ReadMouseButtonInput(ticksUsec, emb.ButtonIndex, emb.Pressed))
             { GetViewport().SetInputAsHandled(); }
         }
     }

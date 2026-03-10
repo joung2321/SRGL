@@ -24,7 +24,7 @@ public partial class LogicManager: Node
     public event Action<int, NoteVisualData> NoteSpawned;
     public event Action<double> NotePositionUpdated;
 
-    public LogicManager(Chart c, SongPlayer sp, JudgementQueue jq, ButtonStateMachine bsm, long userOffsetUsec)
+    public LogicManager(Chart c, SongPlayer sp, JudgementQueue jq, InputMapper im, long userOffsetUsec)
     {
         // chart
         _c = c;
@@ -36,9 +36,9 @@ public partial class LogicManager: Node
         _jq = jq;
 
         // input
-        InputManager im = new InputManager(bsm);
-        bsm.ButtonEvent += OnButtonEvent;
-        AddChild(im);
+        InputListener il = new InputListener(im);
+        im.LaneInputChanged += OnLaneInputChanged;
+        AddChild(il);
 
         // options
         _audioLatencyUsec = (long)Math.Round(AudioServer.GetOutputLatency() * 1_000_000);
@@ -87,7 +87,7 @@ public partial class LogicManager: Node
         if(_sp.Playing) { _jq.Update(timeUsec); }
     }
 
-    private void OnButtonEvent(long ticksUsec, int laneIndex, bool pressed)
+    private void OnLaneInputChanged(long ticksUsec, int laneIndex, bool pressed)
     {
         if(_sp.Playing)
         {
