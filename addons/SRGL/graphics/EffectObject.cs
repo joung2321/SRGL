@@ -39,7 +39,7 @@ public abstract partial class EffectObject : Node2D, IPoolable
     public event Action<IPoolable> ReturnToPool;
     public void InvokeReturnToPool() { ReturnToPool?.Invoke(this); } // wrapping of IPoolable.ReturnToPool
 
-    public void OnDespawn() {}
+    public void OnDespawn() { _t?.Stop(); } // prevent double despawn
     public void OnSpawn() {}
 
     public void SetActive(bool active)
