@@ -6,27 +6,23 @@ using SRGL.Common;
 
 public abstract partial class EffectObject : Node2D, IPoolable
 {
-    [Export] private float _lifetimeSec;
-
-    private Timer _t;
-    
-    public override void _Ready()
-    {
-        // add a timer as a child
-        _t = new Timer();
-        _t.WaitTime = _lifetimeSec;
-        _t.OneShot = true;
-        _t.Timeout += InvokeReturnToPool;
-
-        AddChild(_t);
-    }
+    // timer
+    [Export] private double _lifetimeSec;
+    private double _remainingTimeSec;
 
     public void Play(Judgement judgement, Node2D judgementPoint)
     {
         Position = judgementPoint.Position;
 
         OnPlay(judgement);
-        _t.Start();
+        _remainingTimeSec = _lifetimeSec;
+    }
+
+    public override void _Process(double delta)
+    {
+        _remainingTimeSec -= delta;
+        
+        if(_remainingTimeSec <= 0) { InvokeReturnToPool(); }
     }
 
     /// <summary>
@@ -39,7 +35,7 @@ public abstract partial class EffectObject : Node2D, IPoolable
     public event Action<IPoolable> ReturnToPool;
     public void InvokeReturnToPool() { ReturnToPool?.Invoke(this); } // wrapping of IPoolable.ReturnToPool
 
-    public void OnDespawn() { _t?.Stop(); } // prevent double despawn
+    public void OnDespawn() {}
     public void OnSpawn() {}
 
     public void SetActive(bool active)
