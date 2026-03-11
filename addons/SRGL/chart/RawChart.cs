@@ -73,8 +73,11 @@ public class RawChart
         [JsonPropertyName("V")]
         public int VisualType { get; init; }
 
+        /// <summary>
+        /// how many times Denominator-th note is divided
+        /// </summary>
         [JsonPropertyName("T")]
-        public int TickRate { get; init; } // how many times Denominator-th note is divided
+        public int TickRate { get; init; }
         
         [JsonPropertyName("O")]
         public NoteOptions Options { get; init; }
