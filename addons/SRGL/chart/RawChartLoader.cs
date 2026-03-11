@@ -8,12 +8,16 @@ using System.Text.Json;
 
 public static class RawChartLoader
 {
+    /// <summary>
+    /// Parses a chart file as RawChart, sorts arrays, and verifies.
+    /// </summary>
     public static RawChart Load(string path)
     {
         // get extension (lower case only)
         string ext = Path.GetExtension(path).ToLower();
         RawChart rc; // return value
 
+        // parse a chart file
         switch(ext)
         {
             case ".json":
@@ -24,7 +28,7 @@ public static class RawChartLoader
             throw new FormatException(path);
         }
 
-        // sort array
+        // sort arrays
         Array.Sort(rc.Tempos, (a, b) => a.StartTick.CompareTo(b.StartTick));
         Array.Sort(rc.TimeSignatures, (a, b) => a.StartTick.CompareTo(b.StartTick));
         Array.Sort(rc.SvChanges, (a, b) => a.StartTick.CompareTo(b.StartTick));

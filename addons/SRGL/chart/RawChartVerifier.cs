@@ -86,8 +86,19 @@ public static class RawChartVerifier
         {
             for(int i=0; i<nArr.Length; i++)
             {
-                // TODO: verify raw note data
+                // check each element
+                v.Ensure(nArr[i].StartTick >= 0, () => "negative StartTick");
+                v.Ensure(0 <= nArr[i].Lane && nArr[i].Lane < rawChart.LaneCount, () => "invalid Lane");
+                v.Ensure(nArr[i].TickRate >= 0, () => "negative TickRate");
+
+                // check previous element
+                if(i > 0)
+                {
+                    v.Ensure(nArr[i-1].StartTick <= nArr[i].StartTick, "StartTick should be monotonically increasing");
+                }
             }
+            
+            // TODO: verify that there are no overlapping notes in a single lane
         }
 
         // throw exception
