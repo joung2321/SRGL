@@ -1,6 +1,7 @@
 namespace SRGL;
 
 using Godot;
+using SRGL.Common;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -11,15 +12,27 @@ public static class RawChartLoader
     {
         // get extension (lower case only)
         string ext = Path.GetExtension(path).ToLower();
+        RawChart rc; // return value
 
         switch(ext)
         {
             case ".json":
-            return ParseJson(path);
-            
+            rc = ParseJson(path);
+            break;
+
             default:
             throw new FormatException(path);
         }
+
+        // sort array
+        Array.Sort(rc.Tempos, (a, b) => a.StartTick.CompareTo(b.StartTick));
+        Array.Sort(rc.TimeSignatures, (a, b) => a.StartTick.CompareTo(b.StartTick));
+        Array.Sort(rc.SvChanges, (a, b) => a.StartTick.CompareTo(b.StartTick));
+        Array.Sort(rc.Notes, (a, b) => a.StartTick.CompareTo(b.StartTick));
+        
+        // TODO: verify rc using Verifier
+
+        return rc;
     }
 
     private static RawChart ParseJson(string path)

@@ -7,33 +7,27 @@ public static class Preprocessor
 {
     public static Tempo[] PreprocessTempos(RawChart.RawTempo[] rawArr, long ppqn)
     {
-        // copy and sort array
-        RawChart.RawTempo[] sortedRaw = (RawChart.RawTempo[])rawArr.Clone();
-        Array.Sort(sortedRaw, (a, b) => a.StartTick.CompareTo(b.StartTick));
-
-        // TODO: validate sortedRaw
-
         // construct array
-        int len = sortedRaw.Length;
+        int len = rawArr.Length;
         Tempo[] arr = new Tempo[len];
 
         // fill array
         arr[0] = new Tempo
         {
             StartTick = 0,
-            Bpm = sortedRaw[0].Bpm,
+            Bpm = rawArr[0].Bpm,
             StartTimeSec = 0
         };
 
         for(int i=1; i<len; i++)
         {
-            long dPulse = sortedRaw[i].StartTick - sortedRaw[i-1].StartTick;
+            long dPulse = rawArr[i].StartTick - rawArr[i-1].StartTick;
             double st = arr[i-1].StartTimeSec + dPulse * 60 / (arr[i-1].Bpm * ppqn); // start time
             
             arr[i] = new Tempo
             {
-                StartTick = sortedRaw[i].StartTick,
-                Bpm = sortedRaw[i].Bpm,
+                StartTick = rawArr[i].StartTick,
+                Bpm = rawArr[i].Bpm,
                 StartTimeSec = st
             };
         }
@@ -43,27 +37,21 @@ public static class Preprocessor
 
     public static TimeSignature[] PreprocessTimeSignatures(RawChart.RawTimeSignature[] rawArr, long ppqn)
     {
-        // copy and sort array
-        RawChart.RawTimeSignature[] sortedRaw = (RawChart.RawTimeSignature[])rawArr.Clone();
-        Array.Sort(sortedRaw, (a, b) => a.StartTick.CompareTo(b.StartTick));
-
-        // TODO: validate sortedRaw
-
         // construct array
-        int len = sortedRaw.Length;
+        int len = rawArr.Length;
         TimeSignature[] arr = new TimeSignature[len];
 
         // fill array
         for(int i=0; i<len; i++)
         {
-            long et = (i+1 < len)? sortedRaw[i+1].StartTick: long.MaxValue; // end tick
-            long tpb = 4 * ppqn / sortedRaw[i].Denominator; // ticks per beat
+            long et = (i+1 < len)? rawArr[i+1].StartTick: long.MaxValue; // end tick
+            long tpb = 4 * ppqn / rawArr[i].Denominator; // ticks per beat
 
             arr[i] = new TimeSignature
             {
-                StartTick = sortedRaw[i].StartTick,
+                StartTick = rawArr[i].StartTick,
                 EndTick = et,
-                Numerator = sortedRaw[i].Numerator,
+                Numerator = rawArr[i].Numerator,
                 TicksPerBeat = tpb
             };
         }
@@ -73,38 +61,32 @@ public static class Preprocessor
 
     public static SvChange[] PreprocessSvChanges(RawChart.RawSvChange[] rawArr, long ppqn, Tempo[] tempos)
     {
-        // copy and sort array
-        RawChart.RawSvChange[] sortedRaw = (RawChart.RawSvChange[])rawArr.Clone();
-        Array.Sort(sortedRaw, (a, b) => a.StartTick.CompareTo(b.StartTick));
-
-        // TODO: validate sortedRaw
-
         // construct array
-        int len = sortedRaw.Length;
+        int len = rawArr.Length;
         SvChange[] arr = new SvChange[len];
 
         // fill array
         arr[0] = new SvChange
         {
             StartTimeSec = 0,
-            Multiplier = sortedRaw[0].Multiplier,
+            Multiplier = rawArr[0].Multiplier,
             Position = 0,
-            Interpolation = sortedRaw[0].Interpolation
+            Interpolation = rawArr[0].Interpolation
         };
 
         int cachedIndex = 0;
         for(int i=1; i<len; i++)
         {
-            double st = Converter.TickToTime(sortedRaw[i].StartTick, ppqn, tempos, ref cachedIndex); // start time
+            double st = Converter.TickToTime(rawArr[i].StartTick, ppqn, tempos, ref cachedIndex); // start time
             double dt = st - arr[i-1].StartTimeSec;
             double p = arr[i-1].Position + arr[i-1].Multiplier * dt; // position
             
             arr[i] = new SvChange
             {
                 StartTimeSec = st,
-                Multiplier = sortedRaw[i].Multiplier,
+                Multiplier = rawArr[i].Multiplier,
                 Position = p,
-                Interpolation = sortedRaw[i].Interpolation
+                Interpolation = rawArr[i].Interpolation
             };
         }
 
@@ -113,14 +95,8 @@ public static class Preprocessor
 
     public static NoteData[] PreprocessNotes(RawChart.RawNote[] rawArr, long ppqn, Tempo[] tempos, TimeSignature[] timeSignatures, SvChange[] svChanges)
     {
-        // copy and sort array
-        RawChart.RawNote[] sortedRaw = (RawChart.RawNote[])rawArr.Clone();
-        Array.Sort(sortedRaw, (a, b) => a.StartTick.CompareTo(b.StartTick));
-
-        // TODO: validate sortedRaw
-
         // construct array
-        int len = sortedRaw.Length;
+        int len = rawArr.Length;
         NoteData[] arr = new NoteData[len];
 
         // fill array
@@ -128,7 +104,7 @@ public static class Preprocessor
         int cachedSvIndex = 0;
         for(int i=0; i<len; i++)
         {
-            RawChart.RawNote rawNote = sortedRaw[i];
+            RawChart.RawNote rawNote = rawArr[i];
 
             double st, et, p, l; // Start Time, End Time, Position, Length
             long[] mt; // Middle Times
