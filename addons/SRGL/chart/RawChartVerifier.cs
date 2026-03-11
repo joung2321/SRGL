@@ -1,3 +1,4 @@
+using System;
 using SRGL;
 using SRGL.Common;
 
@@ -10,6 +11,7 @@ public static class RawChartVerifier
 
         v.Ensure(rawChart.AudioPath != null, "null AudioPath");
         v.Ensure(rawChart.PPQN > 0, "non-positive PPQN");
+        v.Ensure(rawChart.LaneCount >= 0, "negative LaneCount");
 
         // ======== Tempos ========
         RawChart.RawTempo[] tArr = rawChart.Tempos;
@@ -84,6 +86,8 @@ public static class RawChartVerifier
 
         if(!isEmpty)
         {
+            bool isSorted = true;
+
             for(int i=0; i<nArr.Length; i++)
             {
                 // check each element
@@ -94,11 +98,32 @@ public static class RawChartVerifier
                 // check previous element
                 if(i > 0)
                 {
-                    v.Ensure(nArr[i-1].StartTick <= nArr[i].StartTick, "StartTick should be monotonically increasing");
+                    bool isMonotonicIncreasing = nArr[i-1].StartTick <= nArr[i].StartTick;
+
+                    v.Ensure(isMonotonicIncreasing, "StartTick should be monotonically increasing");
+                    if(!isMonotonicIncreasing) { isSorted = false; }
                 }
             }
             
-            // TODO: verify that there are no overlapping notes in a single lane
+            // verify that there are no overlapping notes in a single lane
+            if(isSorted && rawChart.LaneCount > 0)
+            {
+                long[] lastTicks = new long[rawChart.LaneCount];
+                for(int i=0; i<lastTicks.Length; i++) { lastTicks[i] = -1; }
+
+                for(int i=0; i<nArr.Length; i++)
+                {
+                    // current note
+                    RawChart.RawNote note = nArr[i];
+
+                    // check overlap
+                    bool noOverlap = lastTicks[note.Lane] < note.StartTick;
+                    v.Ensure(noOverlap, "overlapping notes");
+
+                    // update lastTicks
+                    lastTicks[note.Lane] = Math.Max(note.StartTick, note.EndTick);
+                }
+            }
         }
 
         // throw exception
