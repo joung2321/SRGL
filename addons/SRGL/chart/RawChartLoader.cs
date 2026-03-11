@@ -29,9 +29,10 @@ public static class RawChartLoader
         Array.Sort(rc.TimeSignatures, (a, b) => a.StartTick.CompareTo(b.StartTick));
         Array.Sort(rc.SvChanges, (a, b) => a.StartTick.CompareTo(b.StartTick));
         Array.Sort(rc.Notes, (a, b) => a.StartTick.CompareTo(b.StartTick));
-        
-        // TODO: verify rc using Verifier
 
+        // verify rc
+        RawChartVerifier.Verify(rc);
+        
         return rc;
     }
 
