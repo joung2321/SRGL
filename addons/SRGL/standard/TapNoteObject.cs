@@ -1,9 +1,7 @@
 namespace SRGL.Standard;
 
 using Godot;
-
 using SRGL;
-using SRGL.Common;
 
 public partial class TapNoteObject : NoteObject
 {
@@ -22,6 +20,4 @@ public partial class TapNoteObject : NoteObject
     {
         Position = _judgementPoint.Position + (float)(userSpeedPxPerSec * (_visualData.Position - position)) * Vector2.Up;
     }
-
-    protected override void OnStateChanged(NoteState state) {}
 }

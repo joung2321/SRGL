@@ -1,5 +1,9 @@
-namespace SRGL.Common;
+namespace SRGL.Standard;
 
+/// <summary>
+/// Collection of frequently-used functions mapping a lane index to a visual variation.<br/>
+/// Use these functions as the parameter "selectVisualVariation" of the constructor NoteManager().
+/// </summary>
 public static class VisualVariationSelector
 {
     /// <summary>

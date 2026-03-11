@@ -25,9 +25,9 @@ public abstract partial class NoteObject : Node2D, IPoolable
         OnStateChanged(state);
     }
 
-    protected abstract void OnStateChanged(NoteState state);
+    protected virtual void OnStateChanged(NoteState state) {}
 
-    public abstract void SetVisualVariation(int variationIndex);
+    public virtual void SetVisualVariation(int variationIndex) {}
 
     /// <summary>
     /// e.g.) Updating position of a tap note:
