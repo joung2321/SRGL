@@ -65,6 +65,9 @@ public record struct NoteData
 
 public record struct Judgement
 {
+    /// <summary>
+    /// ErrorUsec = noteTimeUsec - currentTimeUsec. See TimingWindow.CalculateErrorUsec().
+    /// </summary>
     public long ErrorUsec;
     public int PartitionIndex;
     public int Count;
@@ -74,4 +77,7 @@ public record struct Judgement
     /// This value will be used as a effect type. See EffectManager.AddEffectType().
     /// </summary>
     public int Context;
+
+    public bool IsEarly => ErrorUsec > 0;
+    public bool IsLate  => ErrorUsec < 0;
 }
