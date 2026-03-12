@@ -29,7 +29,7 @@ public class Verifier
         if(_errorMessages.Count > 0)
         {
             _errorMessages.Insert(0, string.Empty);
-            throw new Exception(string.Join('\n', _errorMessages));
+            throw new SrglException(string.Join('\n', _errorMessages));
         }
     }
 }

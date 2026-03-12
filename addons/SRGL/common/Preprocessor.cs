@@ -168,6 +168,9 @@ public static class Preprocessor
         // for each time signature
         while(i < timeSignatures.Length && timeSignatures[i].StartTick <= tailPulse)
         {
+            // check truncating division
+            if(timeSignatures[i].TicksPerBeat % tickRate != 0) { throw new SrglException("inappropriate tickRate"); }
+
             long currTick = timeSignatures[i].StartTick;
             long dTick = timeSignatures[i].TicksPerBeat / tickRate;
 
