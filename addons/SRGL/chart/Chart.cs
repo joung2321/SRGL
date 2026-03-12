@@ -56,43 +56,4 @@ public class Chart
             if((data.LogicData.Options & NoteOptions.CheckRelease) != 0) { TotalCombo++; } // end time
         }
     }
-
-    public bool TryGetNoteData(int index, out NoteData note)
-    {
-        if(0 <= index && index < _notes.Length)
-        {
-            note = _notes[index];
-            return true;
-        }
-        else
-        {
-            note = new NoteData
-            {
-                LogicData = new NoteLogicData { StartTimeUsec = long.MaxValue }
-            };
-            return false;
-        }
-    }
-
-    public bool TryGetBarlineData(int index, out NoteData barline)
-    {
-        if(0 <= index && index < _barlines.Length)
-        {
-            barline = _barlines[index];
-            return true;
-        }
-        else
-        {
-            barline = new NoteData
-            {
-                LogicData = new NoteLogicData { StartTimeUsec = long.MaxValue }
-            };
-            return false;
-        }
-    }
-
-    public double TimeToPosition(double targetTimeSec, ref int cachedIndex)
-    {
-        return Converter.TimeToPosition(targetTimeSec, _svChanges, ref cachedIndex);
-    }
 }

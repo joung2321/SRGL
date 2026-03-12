@@ -56,28 +56,34 @@ public partial class LogicManager: Node
     public override void _Process(double delta)
     {
         long timeUsec = _sp.GetSongTimeUsec((long)Time.GetTicksUsec()) - _sp.AudioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
-        double position = _c.TimeToPosition((double)timeUsec / 1_000_000, ref _svIndex);
-        
+        double position = Converter.TimeToPosition((double)timeUsec / 1_000_000, _c._svChanges, ref _svIndex);
+
         // notes
-        while(_c.TryGetNoteData(_noteIndex, out NoteData data) && timeUsec + LookAheadUsec >= data.LogicData.StartTimeUsec)
+        while(0 <= _noteIndex &&
+              _noteIndex < _c._notes.Length &&
+              timeUsec + LookAheadUsec >= _c._notes[_noteIndex].LogicData.StartTimeUsec)
         {
             // logic
-            int id = _jq.EnqueueNote(data.LogicData);
-            _noteIndex++;
-            
+            int id = _jq.EnqueueNote(_c._notes[_noteIndex].LogicData);
+
             // visual
-            if(id >= 0) { NoteSpawned?.Invoke(id, data.VisualData); }
+            if(id >= 0) { NoteSpawned?.Invoke(id, _c._notes[_noteIndex].VisualData); }
+
+            _noteIndex++;
         }
         
         // barlines
-        while(_c.TryGetBarlineData(_barlineIndex, out NoteData data) && timeUsec + LookAheadUsec >= data.LogicData.StartTimeUsec)
+        while(0 <= _barlineIndex &&
+              _barlineIndex < _c._barlines.Length &&
+              timeUsec + LookAheadUsec >= _c._barlines[_barlineIndex].LogicData.StartTimeUsec)
         {
             // logic
-            int id = _jq.EnqueueNote(data.LogicData);
-            _barlineIndex++;
-            
+            int id = _jq.EnqueueNote(_c._barlines[_barlineIndex].LogicData);
+
             // visual
-            if(id >= 0) { NoteSpawned?.Invoke(id, data.VisualData); }
+            if(id >= 0) { NoteSpawned?.Invoke(id, _c._barlines[_barlineIndex].VisualData); }
+
+            _barlineIndex++;
         }
         
         // update
