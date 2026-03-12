@@ -70,6 +70,11 @@ public class JudgementQueue
         _strategies.Add(logicType, strategy);
     }
 
+    public bool HasStrategy(int logicType)
+    {
+        return _strategies.TryGetValue(logicType, out IJudgementStrategy Strategy) && Strategy != null;
+    }
+
     /// <returns>Non-negative note id if the given note is successfully enquened; otherwise, -1.</returns>
     public int EnqueueNote(NoteLogicData data)
     {
