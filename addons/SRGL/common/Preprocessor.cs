@@ -151,9 +151,6 @@ public static class Preprocessor
         return arr;
     }
 
-    // middle times [us]
-    private static readonly List<long> _mt = new List<long>(128);
-
     private static long[] GenerateMiddleTimesUsec(long headPulse, long tailPulse, int tickRate, long ppqn, TimeSignature[] timeSignatures, Tempo[] tempos)
     {
         if(tickRate <= 0) { return Array.Empty<long>(); }
@@ -163,7 +160,7 @@ public static class Preprocessor
         int cachedIndex = 0; // cached index for Converter.TickToTime()
 
         // return value: middle times [us]
-        _mt.Clear(); // reuse _mt to avoid GC
+        List<long> mt = new List<long>(128);
 
         // find starting point
         while(i < timeSignatures.Length && timeSignatures[i].EndTick <= headPulse) { i++; }
@@ -188,7 +185,7 @@ public static class Preprocessor
                     double t = Converter.TickToTime(currTick, ppqn, tempos, ref cachedIndex);
                     long t_us = (long)Math.Round(t * 1_000_000);
 
-                    _mt.Add(t_us);
+                    mt.Add(t_us);
                 }
                 else if(tailPulse <= currTick) { break; }
 
@@ -198,22 +195,19 @@ public static class Preprocessor
             i++;
         }
 
-        if(_mt.Count > 0) { return _mt.ToArray(); }
+        if(mt.Count > 0) { return mt.ToArray(); }
         else { return Array.Empty<long>(); }
     }
-
-    // barline times [s]
-    private static readonly List<double> _bt = new List<double>(128);
 
     /// <summary>
     /// [CAUTION] For barlines, Lane = LogicType = VisualType = -1.
     /// </summary>
     public static NoteData[] GenerateBarlines(long endOfTrack, long ppqn, TimeSignature[] timeSignatures, Tempo[] tempos, SvChange[] svChanges)
     {
-        // return value: barline positions [s]
-        _bt.Clear(); // reuse _bp to avoid GC
+        // barline times [s]
+        List<double> bt = new List<double>(128);
 
-        int i = 0; // index for timeSignatures, _bt, arr
+        int i = 0; // index for timeSignatures, bt, arr
         int cachedIndex = 0; // cached index for Converter.TickToTime(), Converter.TimeToPosition()
 
         // ======== calculate start times of barlines ========
@@ -228,7 +222,7 @@ public static class Preprocessor
             {
                 if(currTick <= endOfTrack)
                 {
-                    _bt.Add(Converter.TickToTime(currTick, ppqn, tempos, ref cachedIndex));
+                    bt.Add(Converter.TickToTime(currTick, ppqn, tempos, ref cachedIndex));
                 }
                 else { break; }
 
@@ -241,16 +235,16 @@ public static class Preprocessor
         // ======== generate note data of barlines ========
         cachedIndex = 0;
 
-        if(_bt.Count <= 0) { return Array.Empty<NoteData>(); }
+        if(bt.Count <= 0) { return Array.Empty<NoteData>(); }
         else
         {
             // construct array
-            int len = _bt.Count;
+            int len = bt.Count;
             NoteData[] arr = new NoteData[len];
 
             for(i=0; i<len; i++)
             {
-                long t = (long)Math.Round(_bt[i] * 1_000_000);
+                long t = (long)Math.Round(bt[i] * 1_000_000);
                 NoteLogicData nld = new NoteLogicData
                 {
                     Lane = Constants.BarlineLane,
@@ -266,7 +260,7 @@ public static class Preprocessor
                 NoteVisualData nvd = new NoteVisualData
                 {
                     Lane = Constants.BarlineLane,
-                    Position = _bt[i],
+                    Position = bt[i],
                     Length = 0,
                     VisualType = Constants.BarlineVisualType
                 };
