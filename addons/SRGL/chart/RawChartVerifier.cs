@@ -6,15 +6,24 @@ public static class RawChartVerifier
 {
     public static void Verify(RawChart rawChart)
     {
-        bool isEmpty;
         Verifier v = new Verifier();
 
         v.Ensure(rawChart.AudioPath != null, "null AudioPath");
         v.Ensure(rawChart.PPQN > 0, "non-positive PPQN");
         v.Ensure(rawChart.LaneCount >= 0, "negative LaneCount");
+        
+        VerifyTempos(rawChart.Tempos, v);
+        VerifyTimeSignatures(rawChart.TimeSignatures, rawChart.PPQN, v);
+        VerifySvChanges(rawChart.SvChanges, v);
+        VerifyNotes(rawChart.Notes, rawChart.LaneCount, v);
 
-        // ======== Tempos ========
-        RawChart.RawTempo[] tArr = rawChart.Tempos;
+        // throw exception
+        v.ThrowIfInvalid();
+    }
+
+    private static void VerifyTempos(RawChart.RawTempo[] tArr, Verifier v)
+    {
+        bool isEmpty;
         isEmpty = (tArr == null) || (tArr.Length <= 0);
 
         v.Ensure(!isEmpty, "empty Tempos");
@@ -35,9 +44,11 @@ public static class RawChartVerifier
                 }
             }
         }
+    }
 
-        // ======== TimeSignatures ========
-        RawChart.RawTimeSignature[] tsArr = rawChart.TimeSignatures;
+    private static void VerifyTimeSignatures(RawChart.RawTimeSignature[] tsArr, long ppqn, Verifier v)
+    {
+        bool isEmpty;
         isEmpty = (tsArr == null) || (tsArr.Length <= 0);
 
         v.Ensure(!isEmpty, "empty TimeSignatures");
@@ -51,7 +62,7 @@ public static class RawChartVerifier
                 // check each element
                 v.Ensure(tsArr[i].Numerator > 0, () => $"non-positive Numerator: {tsArr[i].Numerator}");
                 v.Ensure(tsArr[i].Denominator > 0, () => $"non-positive Denominator: {tsArr[i].Denominator}");
-                v.Ensure(4 * rawChart.PPQN % tsArr[i].Denominator == 0, () => $"inappropriate PPQN for Denominator = {tsArr[i].Denominator}");
+                v.Ensure(4 * ppqn % tsArr[i].Denominator == 0, () => $"inappropriate PPQN for Denominator = {tsArr[i].Denominator}");
 
                 // check previous element
                 if(i > 0)
@@ -60,9 +71,11 @@ public static class RawChartVerifier
                 }
             }
         }
+    }
 
-        // ======== SvChanges ========
-        RawChart.RawSvChange[] svArr = rawChart.SvChanges;
+    private static void VerifySvChanges(RawChart.RawSvChange[] svArr, Verifier v)
+    {
+        bool isEmpty;
         isEmpty = (svArr == null) || (svArr.Length <= 0);
 
         v.Ensure(!isEmpty, "empty SvChanges");
@@ -80,9 +93,11 @@ public static class RawChartVerifier
                 }
             }
         }
+    }
 
-        // ======== Notes ========
-        RawChart.RawNote[] nArr = rawChart.Notes;
+    private static void VerifyNotes(RawChart.RawNote[] nArr, int laneCount, Verifier v)
+    {
+        bool isEmpty;
         isEmpty = (nArr == null) || (nArr.Length <= 0);
 
         if(!isEmpty)
@@ -93,7 +108,7 @@ public static class RawChartVerifier
             {
                 // check each element
                 v.Ensure(nArr[i].StartTick >= 0, () => "negative StartTick");
-                v.Ensure(0 <= nArr[i].Lane && nArr[i].Lane < rawChart.LaneCount, () => "invalid Lane");
+                v.Ensure(0 <= nArr[i].Lane && nArr[i].Lane < laneCount, () => "invalid Lane");
                 v.Ensure(nArr[i].TickRate >= 0, () => "negative TickRate");
 
                 // check previous element
@@ -107,9 +122,9 @@ public static class RawChartVerifier
             }
             
             // verify that there are no overlapping notes in a single lane
-            if(isSorted && rawChart.LaneCount > 0)
+            if(isSorted && laneCount > 0)
             {
-                long[] lastTicks = new long[rawChart.LaneCount];
+                long[] lastTicks = new long[laneCount];
                 for(int i=0; i<lastTicks.Length; i++) { lastTicks[i] = -1; }
 
                 for(int i=0; i<nArr.Length; i++)
@@ -126,8 +141,5 @@ public static class RawChartVerifier
                 }
             }
         }
-
-        // throw exception
-        v.ThrowIfInvalid();
     }
 }
