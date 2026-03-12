@@ -3,6 +3,7 @@ namespace SRGL;
 using Godot;
 using System;
 using SRGL.Common;
+using System.Collections.Generic;
 
 public partial class LogicManager: Node
 {
@@ -25,6 +26,14 @@ public partial class LogicManager: Node
 
     public LogicManager(Chart c, SongPlayer sp, JudgementQueue jq, InputMapper im, long userOffsetUsec)
     {
+        // verify that jq has a strategy for every LogicType in c
+        HashSet<int> logicTypes = new HashSet<int>();
+        Verifier v = new Verifier();
+
+        foreach(NoteData data in c._notes) { logicTypes.Add(data.LogicData.LogicType); }
+        foreach(int logicType in logicTypes) { v.Ensure(jq.HasStrategy(logicType), () => $"no strategy for LogicType = {logicType}"); }
+        v.ThrowIfInvalid();
+
         // chart
         _c = c;
         
