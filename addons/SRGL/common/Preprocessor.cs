@@ -2,6 +2,7 @@ namespace SRGL.Common;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 public static class Preprocessor
 {
@@ -59,7 +60,7 @@ public static class Preprocessor
         return arr;
     }
 
-    public static SvChange[] PreprocessSvChanges(RawChart.RawSvChange[] rawArr, long ppqn, Tempo[] tempos)
+    public static SvChange[] PreprocessSvChanges(RawChart.RawSvChange[] rawArr, long ppqn, ImmutableArray<Tempo> tempos)
     {
         // construct array
         int len = rawArr.Length;
@@ -93,7 +94,7 @@ public static class Preprocessor
         return arr;
     }
 
-    public static NoteData[] PreprocessNotes(RawChart.RawNote[] rawArr, long ppqn, Tempo[] tempos, TimeSignature[] timeSignatures, SvChange[] svChanges)
+    public static NoteData[] PreprocessNotes(RawChart.RawNote[] rawArr, long ppqn, ImmutableArray<Tempo> tempos, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<SvChange> svChanges)
     {
         // construct array
         int len = rawArr.Length;
@@ -151,7 +152,7 @@ public static class Preprocessor
         return arr;
     }
 
-    private static long[] GenerateMiddleTimesUsec(long headPulse, long tailPulse, int tickRate, long ppqn, TimeSignature[] timeSignatures, Tempo[] tempos)
+    private static long[] GenerateMiddleTimesUsec(long headPulse, long tailPulse, int tickRate, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos)
     {
         if(tickRate <= 0) { return Array.Empty<long>(); }
 
@@ -205,7 +206,7 @@ public static class Preprocessor
     /// <summary>
     /// [CAUTION] For barlines, Lane = LogicType = VisualType = -1.
     /// </summary>
-    public static NoteData[] GenerateBarlines(long endOfTrack, long ppqn, TimeSignature[] timeSignatures, Tempo[] tempos, SvChange[] svChanges)
+    public static NoteData[] GenerateBarlines(long endOfTrack, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos, ImmutableArray<SvChange> svChanges)
     {
         // barline times [s]
         List<double> bt = new List<double>(128);

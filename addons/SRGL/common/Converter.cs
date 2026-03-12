@@ -1,6 +1,7 @@
 namespace SRGL.Common;
 
 using System;
+using System.Collections.Immutable;
 
 public static class Converter
 {
@@ -9,7 +10,7 @@ public static class Converter
     /// Converts targetTick to time [s]
     /// </summary>
     /// <param name="tempos">sorted by StartTick in ascending order</param>
-    public static double TickToTime(long targetTick, long ppqn, Tempo[] tempos, ref int cachedIndex)
+    public static double TickToTime(long targetTick, long ppqn, ImmutableArray<Tempo> tempos, ref int cachedIndex)
     {
         // check errors
         if(tempos == null || tempos.Length <= 0) { throw new ArgumentException("tempos is empty."); }
@@ -48,7 +49,7 @@ public static class Converter
     /// Converts targetTimeSec to position
     /// </summary>
     /// <param name="svChanges">sorted by StartTime in ascending order</param>
-    public static double TimeToPosition(double targetTimeSec, SvChange[] svChanges, ref int cachedIndex)
+    public static double TimeToPosition(double targetTimeSec, ImmutableArray<SvChange> svChanges, ref int cachedIndex)
     {
         // check errors
         if(svChanges == null || svChanges.Length <= 0) { return targetTimeSec; } // assume all multipliers are 1.0

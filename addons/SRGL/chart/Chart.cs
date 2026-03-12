@@ -1,5 +1,6 @@
 namespace SRGL;
 
+using System.Collections.Immutable;
 using SRGL.Common;
 
 public class Chart
@@ -15,12 +16,12 @@ public class Chart
     public int TotalCombo { get; private set; }
     public long OffsetUsec { get; private set; }
 
-    private Tempo[] _tempos;
-    private TimeSignature[] _timeSignatures;
-    private SvChange[] _svChanges;
+    public ImmutableArray<Tempo> _tempos { get; private set; }
+    public ImmutableArray<TimeSignature> _timeSignatures { get; private set; }
+    public ImmutableArray<SvChange> _svChanges { get; private set; }
 
-    private NoteData[] _notes;
-    private NoteData[] _barlines;
+    public ImmutableArray<NoteData> _notes { get; private set; }
+    public ImmutableArray<NoteData> _barlines { get; private set; }
     // ======== end ========
 
     public Chart(RawChart rawChart)
@@ -34,14 +35,13 @@ public class Chart
         _ppqn = rawChart.PPQN;
         LaneCount = rawChart.LaneCount;
         OffsetUsec = rawChart.OffsetUsec;
+        
+        _tempos = Preprocessor.PreprocessTempos(rawChart.Tempos, rawChart.PPQN).ToImmutableArray();
+        _timeSignatures = Preprocessor.PreprocessTimeSignatures(rawChart.TimeSignatures, rawChart.PPQN).ToImmutableArray();
+        _svChanges = Preprocessor.PreprocessSvChanges(rawChart.SvChanges, rawChart.PPQN, _tempos).ToImmutableArray();
 
-        _timeSignatures = Preprocessor.PreprocessTimeSignatures(rawChart.TimeSignatures, rawChart.PPQN);
-        _tempos = Preprocessor.PreprocessTempos(rawChart.Tempos, rawChart.PPQN);
-
-        _svChanges = Preprocessor.PreprocessSvChanges(rawChart.SvChanges, rawChart.PPQN, _tempos);
-        _notes = Preprocessor.PreprocessNotes(rawChart.Notes, rawChart.PPQN, _tempos, _timeSignatures, _svChanges);
-
-        _barlines = Preprocessor.GenerateBarlines(rawChart.EndOfTrack, _ppqn, _timeSignatures, _tempos, _svChanges);
+        _notes = Preprocessor.PreprocessNotes(rawChart.Notes, rawChart.PPQN, _tempos, _timeSignatures, _svChanges).ToImmutableArray();
+        _barlines = Preprocessor.GenerateBarlines(rawChart.EndOfTrack, _ppqn, _timeSignatures, _tempos, _svChanges).ToImmutableArray();
         // ======== end ========
 
         // calculate total combo
