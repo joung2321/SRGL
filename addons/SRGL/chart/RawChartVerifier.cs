@@ -23,8 +23,7 @@ public static class RawChartVerifier
 
     private static void VerifyTempos(RawChart.RawTempo[] tArr, Verifier v)
     {
-        bool isEmpty;
-        isEmpty = (tArr == null) || (tArr.Length <= 0);
+        bool isEmpty = (tArr == null) || (tArr.Length <= 0);
 
         v.Ensure(!isEmpty, "empty Tempos");
         if(!isEmpty)
@@ -48,8 +47,7 @@ public static class RawChartVerifier
 
     private static void VerifyTimeSignatures(RawChart.RawTimeSignature[] tsArr, long ppqn, Verifier v)
     {
-        bool isEmpty;
-        isEmpty = (tsArr == null) || (tsArr.Length <= 0);
+        bool isEmpty = (tsArr == null) || (tsArr.Length <= 0);
 
         v.Ensure(!isEmpty, "empty TimeSignatures");
         if(!isEmpty)
@@ -75,8 +73,7 @@ public static class RawChartVerifier
 
     private static void VerifySvChanges(RawChart.RawSvChange[] svArr, Verifier v)
     {
-        bool isEmpty;
-        isEmpty = (svArr == null) || (svArr.Length <= 0);
+        bool isEmpty = (svArr == null) || (svArr.Length <= 0);
 
         v.Ensure(!isEmpty, "empty SvChanges");
         if(!isEmpty)
@@ -97,8 +94,7 @@ public static class RawChartVerifier
 
     private static void VerifyNotes(RawChart.RawNote[] nArr, int laneCount, Verifier v)
     {
-        bool isEmpty;
-        isEmpty = (nArr == null) || (nArr.Length <= 0);
+        bool isEmpty = (nArr == null) || (nArr.Length <= 0);
 
         if(!isEmpty)
         {
