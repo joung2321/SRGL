@@ -49,14 +49,18 @@ public class TimingWindow
         // errorUsec = abs(errorUsec)
         if(errorUsec < 0) { errorUsec = -errorUsec; }
 
-        // find partition index
-        int i = 0;
-        for(int cnt = _partitionsUsec.Count; i < cnt; i++)
+        // find lower bound
+        // [WARNING] read this documentation first:
+        // https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.binarysearch?view=net-10.0
+        int index = _partitionsUsec.BinarySearch(errorUsec);
+
+        // if errorUsec is NOT found, bitwise complement of the index of the next element that is larger than errorUsec
+        if(index < 0)
         {
-            if(errorUsec <= _partitionsUsec[i]) { break; }
+            index = ~index;
         }
 
-        return i;
+        return index;
     }
 
     // partition index for missed note
