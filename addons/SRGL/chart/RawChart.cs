@@ -7,6 +7,20 @@ using SRGL.Common;
 public class RawChart
 {
     // ======== metadata ========
+    /// <summary>
+    /// semantic versioning e.g.) 1.2.3
+    /// </summary>
+    public string FormatVersion { get; init; }
+    
+    public string Title { get; init; }
+    public string Composer { get; init; }
+    public string Illustrator { get; init; }
+    public string Charter { get; init; }
+
+    public int DifficultyCategory { get; init; }
+    public float DifficultyLevel { get; init; }
+
+    public string Description { get; init; }
 
     // ======== chart data ========
     public string ImagePath { get; init; }

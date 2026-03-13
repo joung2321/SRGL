@@ -6,27 +6,48 @@ using SRGL.Common;
 public class Chart
 {
     // ======== metadata ========
+    public string FormatVersion { get; init; }
+    
+    public string Title { get; init; }
+    public string Composer { get; init; }
+    public string Illustrator { get; init; }
+    public string Charter { get; init; }
+
+    public int DifficultyCategory { get; init; }
+    public float DifficultyLevel { get; init; }
+
+    public string Description { get; init; }
 
     // ======== chart data ========
-    public string ImagePath { get; private set; }
-    public string AudioPath { get; private set; }
+    public string ImagePath { get; init; }
+    public string AudioPath { get; init; }
 
     private long _ppqn;
-    public int LaneCount { get; private set; }
-    public int TotalCombo { get; private set; }
-    public long OffsetUsec { get; private set; }
+    public int LaneCount { get; init; }
+    public int TotalCombo { get; init; }
+    public long OffsetUsec { get; init; }
 
-    public ImmutableArray<Tempo> _tempos { get; private set; }
-    public ImmutableArray<TimeSignature> _timeSignatures { get; private set; }
-    public ImmutableArray<SvChange> _svChanges { get; private set; }
+    public ImmutableArray<Tempo> _tempos { get; init; }
+    public ImmutableArray<TimeSignature> _timeSignatures { get; init; }
+    public ImmutableArray<SvChange> _svChanges { get; init; }
 
-    public ImmutableArray<NoteData> _notes { get; private set; }
-    public ImmutableArray<NoteData> _barlines { get; private set; }
+    public ImmutableArray<NoteData> _notes { get; init; }
+    public ImmutableArray<NoteData> _barlines { get; init; }
     // ======== end ========
 
     public Chart(RawChart rawChart)
     {
         // ======== metadata ========
+        FormatVersion = rawChart.FormatVersion;
+        Title = rawChart.Title;
+        Composer = rawChart.Composer;
+        Illustrator = rawChart.Illustrator;
+        Charter = rawChart.Charter;
+        
+        DifficultyCategory = rawChart.DifficultyCategory;
+        DifficultyLevel = rawChart.DifficultyLevel;
+        
+        Description = rawChart.Description;
         
         // ======== preprocess raw chart ========
         ImagePath = rawChart.ImagePath;
