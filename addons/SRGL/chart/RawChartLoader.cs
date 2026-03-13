@@ -5,6 +5,12 @@ using SRGL.Common;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+
+// source generator context for RawChart
+[JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)]
+[JsonSerializable(typeof(RawChart))]
+internal sealed partial class RawChartJsonContext: JsonSerializerContext {}
 
 public static class RawChartLoader
 {
@@ -25,7 +31,7 @@ public static class RawChartLoader
             break;
 
             default:
-            throw new FormatException(path);
+            throw new NotSupportedException($"unsupported chart file format: {ext}");
         }
 
         // sort arrays
@@ -45,20 +51,17 @@ public static class RawChartLoader
         // check if a file exists
         if(!Godot.FileAccess.FileExists(path))
         {
-            throw new FileNotFoundException($"Chart file not found: {path}");
+            throw new FileNotFoundException($"chart file not found: {path}");
         }
 
         // read the file
         Godot.FileAccess file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
         string json = file.GetAsText();
-
-        // parsing option
-        JsonSerializerOptions option = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
+        
         // parse json
         try
         {
-            return JsonSerializer.Deserialize<RawChart>(json, option);
+            return JsonSerializer.Deserialize(json, RawChartJsonContext.Default.RawChart);
         }
         catch(System.Exception e)
         {
