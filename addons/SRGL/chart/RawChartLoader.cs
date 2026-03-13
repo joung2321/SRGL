@@ -1,6 +1,7 @@
 namespace SRGL;
 
 using Godot;
+using SRGL.Common;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -44,8 +45,7 @@ public static class RawChartLoader
         // check if a file exists
         if(!Godot.FileAccess.FileExists(path))
         {
-            GD.PrintErr("Chart file not found: ", path);
-            return null;
+            throw new FileNotFoundException($"Chart file not found: {path}");
         }
 
         // read the file
@@ -62,8 +62,7 @@ public static class RawChartLoader
         }
         catch(System.Exception e)
         {
-            GD.PrintErr("JSON parsing error: ", e.Message);
-            return null;
+            throw new SrglException($"JSON parsing error: {path}\n{e.Message}");
         }
     }
 }
