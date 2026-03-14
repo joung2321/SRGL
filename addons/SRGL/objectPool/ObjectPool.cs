@@ -2,15 +2,16 @@ namespace SRGL;
 
 using Godot;
 using System.Collections.Generic;
-using System.Linq;
 
+/// <summary>
+/// [CAUTION] For simplicity, do NOT define ObjectPool.DespawnAll()!
+/// </summary>
 public class ObjectPool<T> where T: Node2D, IPoolable
 {
     private Node2D _parent;
     private PackedScene _scene;
 
     private Stack<T> _pool;
-    private HashSet<T> _spawnedObjects;
 
     public ObjectPool(Node2D parent, string scenePath, int poolSize = 0)
     {
@@ -18,7 +19,6 @@ public class ObjectPool<T> where T: Node2D, IPoolable
         _scene = GD.Load<PackedScene>(scenePath);
 
         _pool = new Stack<T>();
-        _spawnedObjects = new HashSet<T>();
 
         if(poolSize > 0)
         {
@@ -45,27 +45,18 @@ public class ObjectPool<T> where T: Node2D, IPoolable
         T obj = (_pool.Count > 0)? _pool.Pop(): CreateNewObject();
 
         obj.OnSpawn();
-        _spawnedObjects.Add(obj);
 
         return obj;
     }
 
     private void Despawn(IPoolable obj)
     {
-        if(obj is T tObj && _spawnedObjects.Remove(tObj))
+        if(obj is T tObj)
         {
             tObj.OnDespawn();
             tObj.SetActive(false);
 
             _pool.Push(tObj);
-        }
-    }
-
-    public void DespawnAll()
-    {
-        foreach(T obj in _spawnedObjects.ToArray())
-        {
-            Despawn(obj);
         }
     }
 }

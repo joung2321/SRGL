@@ -34,15 +34,7 @@ public class EffectManager
             eo.SetActive(true);
         }
     }
-
-    public void DespawnAllEffects()
-    {
-        foreach(KeyValuePair<int, ObjectPool<EffectObject>> kvp in _effectPools)
-        {
-            kvp.Value.DespawnAll();
-        }
-    }
-
+    
     public void Listen(JudgementQueue jq)
     {
         jq.NoteJudged += PlayEffect;
