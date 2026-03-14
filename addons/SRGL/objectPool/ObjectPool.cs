@@ -50,7 +50,7 @@ public class ObjectPool<T> where T: Node2D, IPoolable
         return obj;
     }
 
-    public void Despawn(IPoolable obj)
+    private void Despawn(IPoolable obj)
     {
         if(obj is T tObj && _spawnedObjects.Remove(tObj))
         {
