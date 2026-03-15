@@ -114,4 +114,16 @@ public class SongPlayer
         if(!Playing) { return _pausedPositionUsec; }
         else { return _pausedPositionUsec + (ticksUsec - _resumedTicks); }
     }
+
+    /// <summary>
+    /// Compensates audio drift.
+    /// </summary>
+    /// <param name="delta"></param>
+    /// <param name="ticksUsec"></param>
+    public void SyncAudio(double delta, long ticksUsec)
+    {
+        if(!Playing || _isFinished) { return; }
+
+        // TODO: implement logic
+    }
 }
