@@ -128,7 +128,8 @@ public class SongPlayer
         // To clarify logic, use control engineering.
         // [1] (audio drift) = (audio time) - (logic time)
         // [2] (logic time) = h(resumed ticks)
-        // [3] goal) make (error) close to 0 by adjusting (resumed ticks) with Proportional control
+        // [3] d/dt(resumed ticks) = f(resumed ticks, control input)
+        // [4] goal) make (error) close to 0 by applying Proportional control, (control input) = Kp * (audio drift).
 
         // audio time
         double audioTimeSec = _asp.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
@@ -143,14 +144,15 @@ public class SongPlayer
 
         if(absAudioDriftUsec >= 50 * 1000) // 50 ms
         {
-            _resumedTicks -= audioDriftUsec; // [3] If audio drift is too big, compensate it instantly.
+            _resumedTicks -= audioDriftUsec; // [3][4] If audio drift is too big, compensate it instantly.
         }
         else if(absAudioDriftUsec >= 2 * 1000) // 2 ms
         {
-            // [3] Proportional control with Kp = 10
+            // [4] Proportional control with Kp = 10
             long correction = (long)(10 * delta * audioDriftUsec);
             if(Math.Abs(correction) > absAudioDriftUsec) { correction = audioDriftUsec; }
-            _resumedTicks -= correction;
+
+            _resumedTicks -= correction; // [3]
         }
     }
 }
