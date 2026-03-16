@@ -16,18 +16,23 @@ public abstract partial class NoteObject : Node2D, IPoolable
         _judgementPoint = judgementPoint;
 
         SetState(NoteState.Idle);
-        SetVisualVariation(variationIndex);
+        OnInit(visualData, variationIndex);
     }
 
     public void SetState(NoteState state)
     {
+        if(_state == state) { return; }
+
         _state = state;
-        OnStateChanged(state);
+        OnStateChanged();
     }
 
-    protected virtual void OnStateChanged(NoteState state) {}
+    protected virtual void OnInit(NoteVisualData visualData, int variationIndex) {}
 
-    public virtual void SetVisualVariation(int variationIndex) {}
+    /// <summary>
+    /// Called when the note's state has changed.
+    /// </summary>
+    protected virtual void OnStateChanged() {}
 
     /// <summary>
     /// e.g.) Updating position of a tap note:
