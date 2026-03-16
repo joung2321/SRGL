@@ -68,8 +68,13 @@ public partial class LogicManager: Node
 
     public override void _Process(double delta)
     {
+        long ticksUsec = (long)Time.GetTicksUsec();
+
+        // compensate audio drift
+        _sp.SyncWithAudio(delta, ticksUsec);
+
         // calculate time and position
-        long timeUsec = _sp.GetSongTimeUsec((long)Time.GetTicksUsec()) - _sp.AudioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
+        long timeUsec = _sp.GetSongTimeUsec(ticksUsec) - _sp.AudioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
         double position = Converter.TimeToPosition((double)timeUsec / 1_000_000, _c._svChanges, ref _svIndex);
 
         // frame budget for notes and barlines

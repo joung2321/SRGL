@@ -116,14 +116,41 @@ public class SongPlayer
     }
 
     /// <summary>
-    /// Compensates audio drift.
+    /// Compensates audio drift by updating SongPlayer._resumedTicks.<br/>
+    /// [WARNING] Do NOT call this method! This method will be called ONLY once in LogicManager._Process().
     /// </summary>
     /// <param name="delta"></param>
     /// <param name="ticksUsec"></param>
-    public void SyncAudio(double delta, long ticksUsec)
+    public void SyncWithAudio(double delta, long ticksUsec)
     {
         if(!Playing || _isFinished) { return; }
 
-        // TODO: implement logic
+        // To clarify logic, use control engineering.
+        // [1] (audio drift) = (audio time) - (logic time)
+        // [2] (logic time) = h(resumed ticks)
+        // [3] goal) make (error) close to 0 by adjusting (resumed ticks) with Proportional control
+
+        // audio time
+        double audioTimeSec = _asp.GetPlaybackPosition() + AudioServer.GetTimeSinceLastMix();
+        long audioTimeUsec = (long)Math.Round(audioTimeSec * 1_000_000) - AudioLatencyUsec;
+
+        // logic time
+        long logicTimeUsec = _pausedPositionUsec + (ticksUsec - _resumedTicks); // [2] (logic time) = -(resumed ticks) + b
+
+        // audio drift
+        long audioDriftUsec = audioTimeUsec - logicTimeUsec; // [1]
+        long absAudioDriftUsec = Math.Abs(audioDriftUsec);
+
+        if(absAudioDriftUsec >= 50 * 1000) // 50 ms
+        {
+            _resumedTicks -= audioDriftUsec; // [3] If audio drift is too big, compensate it instantly.
+        }
+        else if(absAudioDriftUsec >= 2 * 1000) // 2 ms
+        {
+            // [3] Proportional control with Kp = 10
+            long correction = (long)(10 * delta * audioDriftUsec);
+            if(Math.Abs(correction) > absAudioDriftUsec) { correction = audioDriftUsec; }
+            _resumedTicks -= correction;
+        }
     }
 }
