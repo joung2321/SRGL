@@ -25,6 +25,10 @@ public class NoteManager
     private int[] _spawnedNoteIds = new int[_capacity]; // _spawnedNoteIds[x] = hashed id of _spawnedNotes[x]
     // ======== end ========
 
+    /// <param name="selectVisualVariation">
+    /// A function mapping a lane index to a visual variation.<br/>
+    /// e.g.) SRGL.Standard.VisualVariationSelector.Select4K
+    /// </param>
     public NoteManager(JudgementLine judgementLine, Func<int, int> selectVisualVariation)
     {
         _judgementLine = judgementLine;
