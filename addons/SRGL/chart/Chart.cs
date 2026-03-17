@@ -57,12 +57,12 @@ public class Chart
         LaneCount = rawChart.LaneCount;
         OffsetUsec = rawChart.OffsetUsec;
         
-        _tempos = Preprocessor.PreprocessTempos(rawChart.Tempos, rawChart.PPQN).ToImmutableArray();
-        _timeSignatures = Preprocessor.PreprocessTimeSignatures(rawChart.TimeSignatures, rawChart.PPQN).ToImmutableArray();
-        _svChanges = Preprocessor.PreprocessSvChanges(rawChart.SvChanges, rawChart.PPQN, _tempos).ToImmutableArray();
+        _tempos = Preprocessor.PreprocessTempos(rawChart.Tempos, rawChart.PPQN);
+        _timeSignatures = Preprocessor.PreprocessTimeSignatures(rawChart.TimeSignatures, rawChart.PPQN);
+        _svChanges = Preprocessor.PreprocessSvChanges(rawChart.SvChanges, rawChart.PPQN, _tempos);
 
-        _notes = Preprocessor.PreprocessNotes(rawChart.Notes, rawChart.PPQN, _tempos, _timeSignatures, _svChanges).ToImmutableArray();
-        _barlines = Preprocessor.GenerateBarlines(rawChart.EndOfTrack, _ppqn, _timeSignatures, _tempos, _svChanges).ToImmutableArray();
+        _notes = Preprocessor.PreprocessNotes(rawChart.Notes, rawChart.PPQN, _tempos, _timeSignatures, _svChanges);
+        _barlines = Preprocessor.GenerateBarlines(rawChart.EndOfTrack, _ppqn, _timeSignatures, _tempos, _svChanges);
         // ======== end ========
 
         // calculate total combo

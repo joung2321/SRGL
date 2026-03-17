@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 
 public static class Preprocessor
 {
-    public static Tempo[] PreprocessTempos(RawChart.RawTempo[] rawArr, long ppqn)
+    public static ImmutableArray<Tempo> PreprocessTempos(RawChart.RawTempo[] rawArr, long ppqn)
     {
         // construct array
         int len = rawArr.Length;
@@ -33,10 +33,10 @@ public static class Preprocessor
             };
         }
 
-        return arr;
+        return arr.ToImmutableArray();
     }
 
-    public static TimeSignature[] PreprocessTimeSignatures(RawChart.RawTimeSignature[] rawArr, long ppqn)
+    public static ImmutableArray<TimeSignature> PreprocessTimeSignatures(RawChart.RawTimeSignature[] rawArr, long ppqn)
     {
         // construct array
         int len = rawArr.Length;
@@ -57,10 +57,10 @@ public static class Preprocessor
             };
         }
 
-        return arr;
+        return arr.ToImmutableArray();
     }
 
-    public static SvChange[] PreprocessSvChanges(RawChart.RawSvChange[] rawArr, long ppqn, ImmutableArray<Tempo> tempos)
+    public static ImmutableArray<SvChange> PreprocessSvChanges(RawChart.RawSvChange[] rawArr, long ppqn, ImmutableArray<Tempo> tempos)
     {
         // construct array
         int len = rawArr.Length;
@@ -91,10 +91,10 @@ public static class Preprocessor
             };
         }
 
-        return arr;
+        return arr.ToImmutableArray();
     }
 
-    public static NoteData[] PreprocessNotes(RawChart.RawNote[] rawArr, long ppqn, ImmutableArray<Tempo> tempos, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<SvChange> svChanges)
+    public static ImmutableArray<NoteData> PreprocessNotes(RawChart.RawNote[] rawArr, long ppqn, ImmutableArray<Tempo> tempos, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<SvChange> svChanges)
     {
         // construct array
         int len = rawArr.Length;
@@ -149,7 +149,7 @@ public static class Preprocessor
             arr[i] = new NoteData { LogicData = nld, VisualData = nvd };
         }
 
-        return arr;
+        return arr.ToImmutableArray();
     }
 
     private static ImmutableArray<long> GenerateMiddleTimesUsec(long headPulse, long tailPulse, int tickRate, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos)
@@ -206,7 +206,7 @@ public static class Preprocessor
     /// <summary>
     /// [CAUTION] For barlines, Lane = LogicType = VisualType = -1.
     /// </summary>
-    public static NoteData[] GenerateBarlines(long endOfTrack, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos, ImmutableArray<SvChange> svChanges)
+    public static ImmutableArray<NoteData> GenerateBarlines(long endOfTrack, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos, ImmutableArray<SvChange> svChanges)
     {
         // barline times [s]
         List<double> bt = new List<double>(128);
@@ -239,7 +239,7 @@ public static class Preprocessor
         // ======== generate note data of barlines ========
         cachedIndex = 0;
 
-        if(bt.Count <= 0) { return Array.Empty<NoteData>(); }
+        if(bt.Count <= 0) { return ImmutableArray<NoteData>.Empty; }
         else
         {
             // construct array
@@ -272,7 +272,7 @@ public static class Preprocessor
                 arr[i] = new NoteData{ LogicData = nld, VisualData = nvd };
             }
 
-            return arr;
+            return arr.ToImmutableArray();
         }
     }
 }
