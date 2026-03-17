@@ -6,8 +6,8 @@ using SRGL.Common;
 // judgement strategy for tap note
 public class TapNoteJudgementStrategy : IJudgementStrategy
 {
-    public const int CONTEXT_HIT  = 0;
-    public const int CONTEXT_MISS = 1;
+    public const int CONTEXT_MISS = 0;
+    public const int CONTEXT_HIT  = 1; // LongNoteJudgementStrategy.CONTEXT_HIT = 2
 
     public bool OnPress(long timeUsec, NoteLogicInstance nli, ActiveNoteTracker tracker, TimingWindow tw, Action<Judgement> invokeNoteJudged)
     {

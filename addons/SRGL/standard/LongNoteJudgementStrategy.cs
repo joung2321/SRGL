@@ -6,8 +6,8 @@ using SRGL.Common;
 // judgement strategy for long note (no re-holding, no release judgement)
 public class LongNoteJudgementStrategy : IJudgementStrategy
 {
-    public const int CONTEXT_HIT  = 0;
-    public const int CONTEXT_MISS = 1;
+    public const int CONTEXT_MISS = 0;
+    public const int CONTEXT_HIT  = 2; // TapNoteJudgementStrategy.CONTEXT_HIT = 1
 
     public bool OnPress(long timeUsec, NoteLogicInstance nli, ActiveNoteTracker tracker, TimingWindow tw, Action<Judgement> invokeNoteJudged)
     {
