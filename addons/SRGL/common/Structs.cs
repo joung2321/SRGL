@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace SRGL.Common;
 
 public record struct Tempo
@@ -35,7 +37,7 @@ public record struct NoteLogicData
     
     // long note info
     public long EndTimeUsec; // [us]
-    public long[] MiddleTimesUsec; // [us]
+    public ImmutableArray<long> MiddleTimesUsec; // [us]
 
     // other options
     public NoteOptions Options;

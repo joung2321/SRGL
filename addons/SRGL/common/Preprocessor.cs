@@ -108,7 +108,7 @@ public static class Preprocessor
             RawChart.RawNote rawNote = rawArr[i];
 
             double st, et, p, l; // Start Time, End Time, Position, Length
-            long[] mt; // Middle Times
+            ImmutableArray<long> mt; // Middle Times
 
             st = Converter.TickToTime(rawNote.StartTick, ppqn, tempos, ref cachedBpmIndex);
             p = Converter.TimeToPosition(st, svChanges, ref cachedSvIndex);
@@ -123,7 +123,7 @@ public static class Preprocessor
             {
                 et = st;
                 l = 0;
-                mt = Array.Empty<long>();
+                mt = ImmutableArray<long>.Empty;
             }
 
             NoteLogicData nld = new NoteLogicData
@@ -152,9 +152,9 @@ public static class Preprocessor
         return arr;
     }
 
-    private static long[] GenerateMiddleTimesUsec(long headPulse, long tailPulse, int tickRate, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos)
+    private static ImmutableArray<long> GenerateMiddleTimesUsec(long headPulse, long tailPulse, int tickRate, long ppqn, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<Tempo> tempos)
     {
-        if(tickRate <= 0) { return Array.Empty<long>(); }
+        if(tickRate <= 0) { return ImmutableArray<long>.Empty; }
 
         // local variables
         int i = 0; // index for timeSignatures
@@ -199,8 +199,8 @@ public static class Preprocessor
             i++;
         }
 
-        if(mt.Count > 0) { return mt.ToArray(); }
-        else { return Array.Empty<long>(); }
+        if(mt.Count > 0) { return mt.ToImmutableArray(); }
+        else { return ImmutableArray<long>.Empty; }
     }
 
     /// <summary>
@@ -256,7 +256,7 @@ public static class Preprocessor
                     LogicType = Constants.BarlineLogicType,
 
                     EndTimeUsec = t,
-                    MiddleTimesUsec = Array.Empty<long>(),
+                    MiddleTimesUsec = ImmutableArray<long>.Empty,
 
                     Options = NoteOptions.Dummy
                 };

@@ -1,5 +1,7 @@
 namespace SRGL.Common;
 
+using System.Collections.Immutable;
+
 public class ActiveNoteTracker
 {
     public NoteState State;
@@ -8,7 +10,7 @@ public class ActiveNoteTracker
     public ActiveNoteTracker() { Init(); }
     public void Init() { State = NoteState.Idle; _nextTimeIndex = 0; }
 
-    public int ConsumeMiddleTimes(long currentTime_us, long[] middleTimes_us)
+    public int ConsumeMiddleTimes(long currentTime_us, ImmutableArray<long> middleTimes_us)
     {
         if(middleTimes_us == null || middleTimes_us.Length <= 0) { return 0; }
         
