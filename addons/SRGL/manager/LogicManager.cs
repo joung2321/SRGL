@@ -58,6 +58,9 @@ public partial class LogicManager: Node
     
     public void Reset()
     {
+        _sp.Stop();
+        _jq.Clear();
+        
         _svIndex = 0;
         _noteIndex = 0;
         _barlineIndex = 0;

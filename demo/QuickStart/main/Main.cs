@@ -90,9 +90,6 @@ public partial class Main : Node
             // reset gameplay
             if(ek.Keycode == Key.Escape)
             {
-                _sp.Stop();
-
-                _jq.Clear();
                 _lm.Reset();
                 _nm.DespawnAllNotes();
                 _comboCounter.Reset();
