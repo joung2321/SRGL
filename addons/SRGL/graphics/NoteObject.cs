@@ -10,6 +10,11 @@ public abstract partial class NoteObject : Node2D, IPoolable
     protected Node2D _judgementPoint { get; private set; }
     protected NoteState _state { get; private set; }
 
+    public override void _ExitTree()
+    {
+        ReturnToPool = null; // remove all callbacks
+    }
+    
     public void Init(NoteVisualData visualData, int variationIndex, Node2D judgementPoint)
     {
         _visualData = visualData;

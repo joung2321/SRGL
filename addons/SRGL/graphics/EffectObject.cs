@@ -15,6 +15,11 @@ public abstract partial class EffectObject : Node2D, IPoolable
         ZIndex = 1; // EffectObject should be in front of NoteObject
     }
 
+    public override void _ExitTree()
+    {
+        ReturnToPool = null; // remove all callbacks
+    }
+
     public void Play(Judgement judgement, Node2D judgementPoint)
     {
         Position = judgementPoint.Position;
