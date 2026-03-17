@@ -10,10 +10,10 @@ public partial class ComboCounter : Label
 
     public ComboCounter()
     {
-        Init();
+        Reset();
     }
 
-    public void Init()
+    public void Reset()
     {
         _combo = 0;
         Text = string.Empty;
