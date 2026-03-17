@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c228wdps83n4r" path="res://visual/judgementLine/JudgementLine.tscn" id="2_wbnyf"]
 [ext_resource type="LabelSettings" uid="uid://ba0645rkphcsm" path="res://visual/Combo.tres" id="3_cmtxc"]
 [ext_resource type="Script" uid="uid://dalna4bpaptha" path="res://addons/SRGL/misc/ComboCounter.cs" id="4_tv7ag"]
+[ext_resource type="LabelSettings" uid="uid://cbi6jcbm5jx0h" path="res://visual/judgementLine/KeyHint.tres" id="5_tv7ag"]
 
 [node name="Main" type="Node2D" unique_id=1207092816 node_paths=PackedStringArray("_judgementLine", "_comboCounter")]
 script = ExtResource("1_qv31u")
@@ -30,3 +31,20 @@ grow_vertical = 2
 text = "2222"
 label_settings = ExtResource("3_cmtxc")
 script = ExtResource("4_tv7ag")
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=816737307]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -177.0
+offset_top = -93.0
+offset_right = 177.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Resume / Pause: Space
+Reset: Esc"
+label_settings = ExtResource("5_tv7ag")
+horizontal_alignment = 1
+vertical_alignment = 1
