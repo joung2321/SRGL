@@ -10,6 +10,11 @@ public abstract partial class EffectObject : Node2D, IPoolable
     [Export] private double _lifetimeSec;
     private double _remainingTimeSec;
 
+    public override void _EnterTree()
+    {
+        ZIndex = 1; // EffectObject should be in front of NoteObject
+    }
+
     public void Play(Judgement judgement, Node2D judgementPoint)
     {
         Position = judgementPoint.Position;
