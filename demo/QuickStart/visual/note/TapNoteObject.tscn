@@ -11,3 +11,4 @@ _textures = Array[Texture2D]([ExtResource("2_f2c3r"), ExtResource("3_un3ea")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1268463604]
 texture = ExtResource("2_f2c3r")
+offset = Vector2(0, -16)
