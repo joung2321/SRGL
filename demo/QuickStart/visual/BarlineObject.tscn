@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cp8x7ifxei001"]
+
+[ext_resource type="Script" uid="uid://dsp1mj6sy1mya" path="res://addons/SRGL/standard/BarlineObject.cs" id="1_edoib"]
+
+[node name="BarlineObject" type="Line2D" unique_id=299853603]
+points = PackedVector2Array(-256, 0, 256, 0)
+width = 1.0
+default_color = Color(0.5, 0.5, 0.5, 1)
+script = ExtResource("1_edoib")

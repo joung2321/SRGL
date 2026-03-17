@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cobxjeqqk1hcu"]
+
+[ext_resource type="Script" uid="uid://b5ngq24b55wx7" path="res://visual/effect/HitEffectObject.cs" id="1_6n3ms"]
+[ext_resource type="SpriteFrames" uid="uid://b7rt40t44s6d3" path="res://visual/effect/HitEffect.tres" id="2_rvpem"]
+
+[node name="HitEffectObject" type="Node2D" unique_id=1088951541 node_paths=PackedStringArray("_spriteAnimation")]
+script = ExtResource("1_6n3ms")
+_spriteAnimation = NodePath("AnimatedSprite2D")
+_lifetimeSec = 0.32
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1790258539]
+scale = Vector2(4, 4)
+sprite_frames = ExtResource("2_rvpem")
+animation = &"pure"

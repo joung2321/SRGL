@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c1ucwn00k1xm5"]
+
+[ext_resource type="Script" uid="uid://bwxiigui0vvf" path="res://main/Main.cs" id="1_qv31u"]
+[ext_resource type="PackedScene" uid="uid://c228wdps83n4r" path="res://visual/judgementLine/JudgementLine.tscn" id="2_wbnyf"]
+
+[node name="Main" type="Node2D" unique_id=1207092816 node_paths=PackedStringArray("_judgementLine")]
+script = ExtResource("1_qv31u")
+_judgementLine = NodePath("JudgementLine")
+
+[node name="JudgementLine" parent="." unique_id=1173708987 instance=ExtResource("2_wbnyf")]
+position = Vector2(640, 576)

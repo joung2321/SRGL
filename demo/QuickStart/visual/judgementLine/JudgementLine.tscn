@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://c228wdps83n4r"]
+
+[ext_resource type="Texture2D" uid="uid://dx45htqo4qb5s" path="res://visual/judgementLine/judgementLine.jpeg" id="1_ntw03"]
+[ext_resource type="Script" uid="uid://dqct4qm2ovp1p" path="res://addons/SRGL/graphics/JudgementLine.cs" id="2_yopab"]
+[ext_resource type="LabelSettings" uid="uid://cbi6jcbm5jx0h" path="res://visual/judgementLine/KeyHint.tres" id="3_6u0v6"]
+
+[node name="JudgementLine" type="Sprite2D" unique_id=1173708987 node_paths=PackedStringArray("_center", "_judgementPoints")]
+texture = ExtResource("1_ntw03")
+script = ExtResource("2_yopab")
+_center = NodePath("Center")
+_judgementPoints = [NodePath("Lane_0"), NodePath("Lane_1"), NodePath("Lane_2"), NodePath("Lane_3")]
+
+[node name="Center" type="Node2D" parent="." unique_id=1467082784]
+
+[node name="Lane_0" type="Node2D" parent="." unique_id=1752439899]
+position = Vector2(-192, 0)
+
+[node name="Label_0" type="Label" parent="Lane_0" unique_id=736387357]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "D"
+label_settings = ExtResource("3_6u0v6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lane_1" type="Node2D" parent="." unique_id=1704330147]
+position = Vector2(-64, 0)
+
+[node name="Label_1" type="Label" parent="Lane_1" unique_id=1645040587]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "F"
+label_settings = ExtResource("3_6u0v6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lane_2" type="Node2D" parent="." unique_id=1314613315]
+position = Vector2(64, 0)
+
+[node name="Label_2" type="Label" parent="Lane_2" unique_id=991672355]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "J"
+label_settings = ExtResource("3_6u0v6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lane_3" type="Node2D" parent="." unique_id=1720542625]
+position = Vector2(192, 0)
+
+[node name="Label_3" type="Label" parent="Lane_3" unique_id=1159872769]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "K"
+label_settings = ExtResource("3_6u0v6")
+horizontal_alignment = 1
+vertical_alignment = 1
