@@ -22,7 +22,7 @@ git clone https://github.com/joung2321/SRGL.git
 ### 1. 음원 파일 준비
 아래 악보에 대한 음원 파일을 준비합니다. 확장자는 OGG를 권장합니다.  
 본 예제에서는 [**quickStart.ogg**](./demo/QuickStart/chart/quickStart.ogg)를 사용합니다.
-![quickStart_score](./assets/quickStart.png)
+![quickStart_score](./assets/quickStart_score.png)
 **⚠️주의:** MuseScore를 사용할 경우, MuseScore가 생성한 음원을 Audacity에서 OGG로 다시 저장해야 Godot 4가 정상적으로 로드할 수 있는 OGG 파일이 됩니다.
 ### 2. 채보 파일 작성
 채보 파일로 사용할 [**quickStart.json**](./demo/QuickStart/chart/quickStart.json)을 작성합니다.
