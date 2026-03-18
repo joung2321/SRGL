@@ -18,14 +18,14 @@ git clone https://github.com/joung2321/SRGL.git
 ```
 ## 🚀 퀵 스타트
 본 절에서는 간단한 4키 리듬게임을 구현합니다.  
-자세한 내용은 [**demo/QuickStart**](./demo/QuickStart/)를 참고하세요.
+자세한 내용은 [demo/QuickStart](./demo/QuickStart/)를 참고하세요.
 ### 1. 음원 파일 준비
 아래 악보에 대한 음원 파일을 준비합니다. 확장자는 OGG를 권장합니다.  
-본 예제에서는 [**quickStart.ogg**](./demo/QuickStart/chart/quickStart.ogg)를 사용합니다.
+본 예제에서는 [quickStart.ogg](./demo/QuickStart/chart/quickStart.ogg)를 사용합니다.
 ![quickStart_score](./assets/quickStart_score.png)
 **⚠️주의:** MuseScore를 사용할 경우, MuseScore가 생성한 음원을 Audacity에서 OGG로 다시 저장해야 Godot 4가 정상적으로 로드할 수 있는 OGG 파일이 됩니다.
 ### 2. 채보 파일 작성
-채보 파일로 사용할 [**quickStart.json**](./demo/QuickStart/chart/quickStart.json)을 작성합니다.
+채보 파일로 사용할 [quickStart.json](./demo/QuickStart/chart/quickStart.json)을 작성합니다.
 ```json
 {
 	"FormatVersion": "1.0.0",
@@ -64,9 +64,62 @@ git clone https://github.com/joung2321/SRGL.git
 ```
 채보 파일 구조: 작성예정
 ### 3. 비주얼 요소 디자인
-작성예정
+#### a) 판정선, 마디선, 노트
+SRGL이 기본적으로 제공하는
+[JudgementLine.cs](./addons/SRGL/graphics/JudgementLine.cs),
+[BarlineObject.cs](./addons/SRGL/standard/BarlineObject.cs),
+[TapNoteObject.cs](./addons/SRGL/standard/TapNoteObject.cs)로  
+[JudgementLine.tscn](./demo/QuickStart/visual/judgementLine/JudgementLine.tscn),
+[BarlineObject.tscn](./demo/QuickStart/visual/BarlineObject.tscn),
+[TapNoteObject.tscn](./demo/QuickStart/visual/note/TapNoteObject.tscn)을 각각 디자인합니다.
+<p>
+<img src="./assets/quickStart_judgementLine.png" width="49%">
+<img src="./assets/quickStart_tapNote.png" width="49%">
+</p>
+
+#### b) 이펙트
+SRGL은 EffectObject.cs의 파생 클래스를 제공하지 않습니다.  
+[HitEffectObject.cs](./demo/QuickStart/visual/effect/HitEffectObject.cs)를 작성하고,
+[HitEffectObject.tscn](./demo/QuickStart/visual/effect/HitEffectObject.tscn)을 디자인합니다.
+```csharp
+using Godot;
+
+using SRGL;
+using SRGL.Common;
+
+public partial class HitEffectObject : EffectObject
+{
+    [Export] private AnimatedSprite2D _spriteAnimation;
+
+    protected override void OnPlay(Judgement judgement)
+    {
+        _spriteAnimation.Stop();
+
+        switch(judgement.PartitionIndex)
+        {
+            case 0:
+            case 1:
+            _spriteAnimation.Play("pure");
+            break;
+
+            case 2:
+            _spriteAnimation.Play("far");
+            break;
+
+            default:
+            _spriteAnimation.Play("default"); // empty animation
+            break;
+        }
+    }
+}
+```
+<p>
+<img src="./assets/quickStart_hitEffect.png" width="49%">
+<img src="./assets/quickStart_hitEffectAnim.png" width="49%">
+</p>
+
 ### 4. 게임플레이 로직 작성
-[**Main.cs**](./demo/QuickStart/main/Main.cs)를 작성합니다.
+[Main.cs](./demo/QuickStart/main/Main.cs)를 작성합니다.
 ```csharp
 using Godot;
 
@@ -169,6 +222,7 @@ public partial class Main : Node
 }
 ```
 ### 5. 게임플레이 씬 디자인
-작성예정
+[Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, 앞서 만들었던 JudgementLine.tscn을 추가하여 게임플레이 씬을 완성합니다.
+![quickStart_main](./assets/quickStart_main.png)
 ## 📄 라이선스
 SRGL은 MIT 라이선스를 따릅니다.
