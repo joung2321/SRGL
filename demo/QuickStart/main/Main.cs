@@ -26,7 +26,7 @@ public partial class Main : Node
         RawChart rc = RawChartLoader.Load("res://chart/quickStart.json");
         Chart c = new Chart(rc);
 
-        // load audio
+        // load song
         _sp = new SongPlayer(this);
         _sp.LoadSong(c.AudioPath);
 
