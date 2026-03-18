@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dx45htqo4qb5s" path="res://visual/judgementLine/judgementLine.jpeg" id="1_ntw03"]
 [ext_resource type="Script" uid="uid://dqct4qm2ovp1p" path="res://addons/SRGL/graphics/JudgementLine.cs" id="2_yopab"]
-[ext_resource type="LabelSettings" uid="uid://cbi6jcbm5jx0h" path="res://visual/judgementLine/KeyHint.tres" id="3_6u0v6"]
+[ext_resource type="LabelSettings" uid="uid://cbi6jcbm5jx0h" path="res://visual/KeyHint.tres" id="3_6u0v6"]
 
 [node name="JudgementLine" type="Sprite2D" unique_id=1173708987 node_paths=PackedStringArray("_center", "_judgementPoints")]
 texture = ExtResource("1_ntw03")

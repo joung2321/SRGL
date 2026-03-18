@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c228wdps83n4r" path="res://visual/judgementLine/JudgementLine.tscn" id="2_wbnyf"]
 [ext_resource type="LabelSettings" uid="uid://ba0645rkphcsm" path="res://visual/Combo.tres" id="3_cmtxc"]
 [ext_resource type="Script" uid="uid://dalna4bpaptha" path="res://addons/SRGL/misc/ComboCounter.cs" id="4_tv7ag"]
-[ext_resource type="LabelSettings" uid="uid://cbi6jcbm5jx0h" path="res://visual/judgementLine/KeyHint.tres" id="5_tv7ag"]
+[ext_resource type="LabelSettings" uid="uid://cbi6jcbm5jx0h" path="res://visual/KeyHint.tres" id="5_tv7ag"]
 
 [node name="Main" type="Node2D" unique_id=1207092816 node_paths=PackedStringArray("_judgementLine", "_comboCounter")]
 script = ExtResource("1_qv31u")
