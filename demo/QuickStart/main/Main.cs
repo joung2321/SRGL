@@ -90,7 +90,6 @@ public partial class Main : Node
             if(ek.Keycode == Key.Escape)
             {
                 _lm.Reset();
-                _nm.DespawnAllNotes();
                 _comboCounter.Reset();
             }
         }

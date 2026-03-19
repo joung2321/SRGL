@@ -152,6 +152,7 @@ public class NoteManager
     {
         jq.NoteStateChanged += ChangeNoteState;
         jq.NoteDespawned += DespawnNote;
+        jq.QueueCleared += DespawnAllNotes;
 
         lm.NoteSpawned += SpawnNote;
         lm.NotePositionUpdated += UpdateNotePosition;

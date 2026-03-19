@@ -224,13 +224,11 @@ public partial class Main : Node
             if(ek.Keycode == Key.Escape)
             {
                 _lm.Reset();
-                _nm.DespawnAllNotes();
                 _comboCounter.Reset();
             }
         }
     }
 }
-
 ```
 ### 5. 게임플레이 씬 디자인
 [Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, JudgementLine.tscn과 ComboCounter로 사용할 Label을 배치하여 게임플레이 씬을 완성합니다.

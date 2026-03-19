@@ -24,6 +24,7 @@ public class JudgementQueue
     public event Action<Judgement> NoteJudged;
     public event Action<int> NoteDespawned;
     public event Action<int, NoteState> NoteStateChanged;
+    public event Action QueueCleared;
 
     // wrapping of this.NoteJudged
     private void InvokeNoteJudged(Judgement judgement) { NoteJudged?.Invoke(judgement); }
@@ -110,6 +111,9 @@ public class JudgementQueue
 
         // dummy notes
         _dummies.Clear();
+
+        // invoke event
+        QueueCleared?.Invoke();
     }
     
     public void Press(long timeUsec, int laneIndex)
