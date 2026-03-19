@@ -20,10 +20,6 @@ public partial class LogicManager: Node
     /// <summary>default value: 3_000_000 us (= 3 sec)</summary>
     public long LookAheadUsec = 3 * 1_000_000;
 
-    // frame budget
-    public int NoteFrameBudget = 5;
-    public int BarlineFrameBudget = 5;
-
     // event
     public event Action<int, NoteVisualData> NoteSpawned;
     public event Action<double> NotePositionUpdated;
@@ -76,15 +72,9 @@ public partial class LogicManager: Node
         // calculate time and position
         long timeUsec = _sp.GetSongTimeUsec(ticksUsec) - _sp.AudioLatencyUsec - _userOffsetUsec - _c.OffsetUsec;
         double position = Converter.TimeToPosition((double)timeUsec / 1_000_000, _c._svChanges, ref _svIndex);
-
-        // frame budget for notes and barlines
-        int frameBudget;
-
+        
         // ======== notes ========
-        frameBudget = NoteFrameBudget;
-
-        while(frameBudget > 0 &&
-              0 <= _noteIndex && _noteIndex < _c._notes.Length &&
+        while(0 <= _noteIndex && _noteIndex < _c._notes.Length &&
               timeUsec + LookAheadUsec >= _c._notes[_noteIndex].LogicData.StartTimeUsec)
         {
             // logic
@@ -94,14 +84,10 @@ public partial class LogicManager: Node
             if(id >= 0) { NoteSpawned?.Invoke(id, _c._notes[_noteIndex].VisualData); }
 
             _noteIndex++;
-            frameBudget--;
         }
         
         // ======== barlines ========
-        frameBudget = BarlineFrameBudget;
-
-        while(frameBudget > 0 &&
-              0 <= _barlineIndex && _barlineIndex < _c._barlines.Length &&
+        while(0 <= _barlineIndex && _barlineIndex < _c._barlines.Length &&
               timeUsec + LookAheadUsec >= _c._barlines[_barlineIndex].LogicData.StartTimeUsec)
         {
             // logic
@@ -111,7 +97,6 @@ public partial class LogicManager: Node
             if(id >= 0) { NoteSpawned?.Invoke(id, _c._barlines[_barlineIndex].VisualData); }
 
             _barlineIndex++;
-            frameBudget--;
         }
         
         // update
