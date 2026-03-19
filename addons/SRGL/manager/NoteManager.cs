@@ -31,7 +31,7 @@ public class NoteManager
     /// </param>
     public NoteManager(JudgementLine judgementLine, Func<int, int> selectVisualVariation, int capacity)
     {
-        if(capacity <= 0) { throw new SrglException("radiusUsec should be positive."); }
+        if(capacity <= 0) { throw new SrglException("capacity should be positive."); }
 
         _judgementLine = judgementLine;
         SelectVisualVariation = selectVisualVariation;
