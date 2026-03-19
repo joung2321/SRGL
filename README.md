@@ -83,7 +83,8 @@ SRGL이 기본적으로 제공하는
 [BarlineObject.tscn](./demo/QuickStart/visual/BarlineObject.tscn),
 [TapNoteObject.tscn](./demo/QuickStart/visual/note/TapNoteObject.tscn)을 각각 디자인합니다.
 <p>
-<img src="./assets/quickStart_judgementLine.png" width="49%">
+<img src="./assets/quickStart_judgementLine.png" width="98.5%">
+<img src="./assets/quickStart_barline.png" width="49%">
 <img src="./assets/quickStart_tapNote.png" width="49%">
 </p>
 
