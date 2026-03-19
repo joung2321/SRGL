@@ -16,6 +16,16 @@ SRGL은 C# 스크립트 기반 라이브러리입니다. **Godot 4 (.NET)** 프�
 ```bash
 git clone https://github.com/joung2321/SRGL.git
 ```
+데모 프로젝트를 빌드하려면 심볼릭 링크를 생성해야 합니다.
+```cmd
+REM Windows
+mklink /J SRGL\demo\QuickStart\addons SRGL\addons
+```
+```bash
+# Linux
+# [CAUTION] Untested command
+ln -s SRGL/addons SRGL/demo/QuickStart/addons
+```
 ## 🚀 퀵 스타트
 본 절에서는 간단한 4키 리듬게임을 구현합니다.  
 자세한 내용은 [demo/QuickStart](./demo/QuickStart/)를 참고하세요.
