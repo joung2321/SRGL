@@ -130,7 +130,7 @@ public partial class HitEffectObject : EffectObject
 </p>
 
 ### 4. 게임플레이 로직 작성
-[Main.cs](./demo/QuickStart/main/Main.cs)를 작성합니다.
+[Main.cs](./demo/QuickStart/main/Main.cs)를 작성합니다. 재미를 위해 [ComboCounter](./addons/SRGL/misc/ComboCounter.cs)를 추가합니다.
 ```csharp
 using Godot;
 
@@ -233,7 +233,7 @@ public partial class Main : Node
 }
 ```
 ### 5. 게임플레이 씬 디자인
-[Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, 앞서 만들었던 JudgementLine.tscn을 추가하여 게임플레이 씬을 완성합니다.
+[Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, JudgementLine.tscn과 ComboCounter로 사용할 Label을 배치하여 게임플레이 씬을 완성합니다.
 ![quickStart_main](./assets/quickStart_main.png)
 ## 📄 라이선스
 SRGL은 MIT 라이선스를 따릅니다.
