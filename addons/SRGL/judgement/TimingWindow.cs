@@ -1,6 +1,7 @@
 namespace SRGL;
 
 using System.Collections.Generic;
+using SRGL.Common;
 
 // class defining timing window and judging a single timing
 public class TimingWindow
@@ -8,26 +9,20 @@ public class TimingWindow
     private long _radiusUsec; // radius of timing window [us] (all input whose absolute error is greater than _radius are ignored)
     private List<long> _partitionsUsec; // contains non-negative, ascending order, unique values ONLY; contains long.MaxValue by default [us]
 
-    public long RadiusUsec
-    {
-        get { return _radiusUsec; }
-        set { if(value >= 0) { _radiusUsec = value; } }
-    }
+    public long RadiusUsec => _radiusUsec;
 
-    public TimingWindow()
+    public TimingWindow(long radiusUsec)
     {
+        if(radiusUsec <= 0) { throw new SrglException("radiusUsec should be positive."); }
+
+        // set radius
+        _radiusUsec = radiusUsec;
+
+        // init partitions
         _partitionsUsec = new List<long>();
-        Init();
-    }
-
-    public void Init()
-    {
-        _radiusUsec = long.MaxValue;
-
-        _partitionsUsec.Clear();
         Partition(long.MaxValue); // _partitionsUsec contains long.MaxValue by default.
     }
-    
+
     public void Partition(long errorUsec)
     {
         if(errorUsec < 0) { return; } // ignore invalid value

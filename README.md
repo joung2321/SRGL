@@ -165,11 +165,10 @@ public partial class Main : Node
         _sp.LoadSong(c.AudioPath);
 
         // define timing window (reference: Arcaea)
-        TimingWindow tw = new TimingWindow();
+        TimingWindow tw = new TimingWindow(120 * 1_000); // radius of timing window (lost: 100 ~ 120 [ms])
         tw.Partition(25 * 1_000); // pure (exact)
         tw.Partition(50 * 1_000); // pure
         tw.Partition(100 * 1_000); // far
-        tw.RadiusUsec = 120 * 1_000; // lost
 
         // define judgement logic
         _jq = new JudgementQueue(c.LaneCount, tw);
@@ -191,7 +190,7 @@ public partial class Main : Node
 
         // ======== visual ========
         // note pool
-        _nm = new NoteManager(_judgementLine, VisualVariationSelector.Select4K);
+        _nm = new NoteManager(_judgementLine, VisualVariationSelector.Select4K, 32);
         _nm.AddNoteType(Constants.BarlineVisualType, "res://visual/BarlineObject.tscn", 8);
         _nm.AddNoteType(0, "res://visual/note/TapNoteObject.tscn", 16);
         _nm.UserSpeedPxPerSec = 500;
@@ -231,6 +230,7 @@ public partial class Main : Node
         }
     }
 }
+
 ```
 ### 5. 게임플레이 씬 디자인
 [Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, JudgementLine.tscn과 ComboCounter로 사용할 Label을 배치하여 게임플레이 씬을 완성합니다.

@@ -14,28 +14,38 @@ public class NoteManager
     private Dictionary<int, ObjectPool<NoteObject>> _notePools;
 
     // ======== NoteManager tracks spawned notes using swap-and-pop. ========
-    private const int _capacity = 512;
+    private readonly int _capacity;
     private int _count; // the number of spawned notes, index for dense array
 
     // sparse array
-    private int[] _idToIndex = new int[_capacity]; // In dense arrays, (a index of a note whose id is x) = _idToIndex[x % _capacity].
+    private int[] _idToIndex; // In dense arrays, (a index of a note whose id is x) = _idToIndex[x % _capacity].
 
     // dense array
-    private NoteObject[] _spawnedNotes = new NoteObject[_capacity];
-    private int[] _spawnedNoteIds = new int[_capacity]; // _spawnedNoteIds[x] = hashed id of _spawnedNotes[x]
+    private NoteObject[] _spawnedNotes;
+    private int[] _spawnedNoteIds; // _spawnedNoteIds[x] = hashed id of _spawnedNotes[x]
     // ======== end ========
 
     /// <param name="selectVisualVariation">
     /// A function mapping a lane index to a visual variation.<br/>
     /// e.g.) SRGL.Standard.VisualVariationSelector.Select4K
     /// </param>
-    public NoteManager(JudgementLine judgementLine, Func<int, int> selectVisualVariation)
+    public NoteManager(JudgementLine judgementLine, Func<int, int> selectVisualVariation, int capacity)
     {
+        if(capacity <= 0) { throw new SrglException("radiusUsec should be positive."); }
+
         _judgementLine = judgementLine;
         SelectVisualVariation = selectVisualVariation;
 
         _notePools = new Dictionary<int, ObjectPool<NoteObject>>();
 
+        // construct arrays
+        _capacity = capacity;
+
+        _idToIndex = new int[_capacity];
+        _spawnedNotes = new NoteObject[_capacity];
+        _spawnedNoteIds = new int[_capacity];
+
+        // init arrays
         _count = 0;
         for(int i=0; i<_capacity; i++)
         {

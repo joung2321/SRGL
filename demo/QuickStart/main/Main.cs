@@ -31,11 +31,10 @@ public partial class Main : Node
         _sp.LoadSong(c.AudioPath);
 
         // define timing window (reference: Arcaea)
-        TimingWindow tw = new TimingWindow();
+        TimingWindow tw = new TimingWindow(120 * 1_000); // radius of timing window (lost: 100 ~ 120 [ms])
         tw.Partition(25 * 1_000); // pure (exact)
         tw.Partition(50 * 1_000); // pure
         tw.Partition(100 * 1_000); // far
-        tw.RadiusUsec = 120 * 1_000; // lost
 
         // define judgement logic
         _jq = new JudgementQueue(c.LaneCount, tw);
@@ -57,7 +56,7 @@ public partial class Main : Node
 
         // ======== visual ========
         // note pool
-        _nm = new NoteManager(_judgementLine, VisualVariationSelector.Select4K);
+        _nm = new NoteManager(_judgementLine, VisualVariationSelector.Select4K, 32);
         _nm.AddNoteType(Constants.BarlineVisualType, "res://visual/BarlineObject.tscn", 8);
         _nm.AddNoteType(0, "res://visual/note/TapNoteObject.tscn", 16);
         _nm.UserSpeedPxPerSec = 500;
