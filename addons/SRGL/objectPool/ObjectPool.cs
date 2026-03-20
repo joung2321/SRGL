@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// [CAUTION] For simplicity, do NOT define ObjectPool.DespawnAll()!
 /// </summary>
-public class ObjectPool<T> where T: Node2D, IPoolable
+public class ObjectPool<T> where T: PoolableNode2D
 {
     private Node2D _parent;
     private PackedScene _scene;
@@ -49,7 +49,7 @@ public class ObjectPool<T> where T: Node2D, IPoolable
         return obj;
     }
 
-    private void Despawn(IPoolable obj)
+    private void Despawn(IPoolable obj) // Action<IPoolable>
     {
         if(obj is T tObj)
         {

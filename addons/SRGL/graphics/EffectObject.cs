@@ -1,10 +1,9 @@
 namespace SRGL;
 
 using Godot;
-using System;
 using SRGL.Common;
 
-public abstract partial class EffectObject : Node2D, IPoolable
+public abstract partial class EffectObject : PoolableNode2D
 {
     // timer
     [Export] private double _lifetimeSec;
@@ -13,11 +12,6 @@ public abstract partial class EffectObject : Node2D, IPoolable
     public override void _EnterTree()
     {
         ZIndex = 1; // EffectObject should be in front of NoteObject
-    }
-
-    public override void _ExitTree()
-    {
-        ReturnToPool = null; // remove all callbacks
     }
 
     public void Play(Judgement judgement, Node2D judgementPoint)
@@ -41,14 +35,11 @@ public abstract partial class EffectObject : Node2D, IPoolable
     /// </summary>
     protected abstract void OnPlay(Judgement judgement);
 
-    // ======== implementation of IPoolable ========
-    public event Action<IPoolable> ReturnToPool;
-    public void InvokeReturnToPool() { ReturnToPool?.Invoke(this); } // wrapping of IPoolable.ReturnToPool
+    // ======== implementation of PoolableNode2D ========
+    protected override void _OnDespawn() {}
+    protected override void _OnSpawn() {}
 
-    public void OnDespawn() {}
-    public void OnSpawn() {}
-
-    public void SetActive(bool active)
+    protected override void _SetActive(bool active)
     {
         Visible = active;
         ProcessMode = active? ProcessModeEnum.Inherit: ProcessModeEnum.Disabled;
