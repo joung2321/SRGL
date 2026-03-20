@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c1ucwn00k1xm5"]
 
-[ext_resource type="Script" uid="uid://bw5u0lhxenrwy" path="res://main/Main.cs" id="1_qv31u"]
+[ext_resource type="Script" uid="uid://1iw7vngmli2e" path="res://main/Main.cs" id="1_qv31u"]
 [ext_resource type="PackedScene" uid="uid://c228wdps83n4r" path="res://visual/judgementLine/JudgementLine.tscn" id="2_wbnyf"]
 [ext_resource type="LabelSettings" uid="uid://ba0645rkphcsm" path="res://visual/Combo.tres" id="3_cmtxc"]
 [ext_resource type="Script" uid="uid://tr26dmpqgny7" path="res://addons/SRGL/misc/ComboCounter.cs" id="4_tv7ag"]
@@ -11,8 +11,9 @@ script = ExtResource("1_qv31u")
 _judgementLine = NodePath("JudgementLine")
 _comboCounter = NodePath("CanvasLayer/ComboCounter")
 
-[node name="JudgementLine" parent="." unique_id=1173708987 instance=ExtResource("2_wbnyf")]
+[node name="JudgementLine" parent="." unique_id=1173708987 node_paths=PackedStringArray("_judgementPoints") instance=ExtResource("2_wbnyf")]
 position = Vector2(640, 576)
+_judgementPoints = []
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2103312138]
 
