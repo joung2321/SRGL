@@ -10,8 +10,7 @@ public static class RawChartVerifier
 
         // ======== metadata ========
         v.Ensure(Version.TryParse(rawChart.FormatVersion, out _), "invalid FormatVersion");
-        v.Ensure(rawChart.Title != null, "null Title");
-
+        
         // ======== chart data ========
         v.Ensure(rawChart.AudioPath != null, "null AudioPath");
         v.Ensure(rawChart.PPQN > 0, "non-positive PPQN");

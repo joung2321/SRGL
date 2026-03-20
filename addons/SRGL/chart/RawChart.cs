@@ -1,5 +1,6 @@
 namespace SRGL;
 
+using System;
 using System.Text.Json.Serialization;
 using SRGL.Common;
 
@@ -12,15 +13,15 @@ public class RawChart
     /// </summary>
     public string FormatVersion { get; init; }
     
-    public string Title { get; init; }
-    public string Composer { get; init; }
-    public string Illustrator { get; init; }
-    public string Charter { get; init; }
+    public string Title { get; init; } = "";
+    public string Composer { get; init; } = "";
+    public string Illustrator { get; init; } = "";
+    public string Charter { get; init; } = "";
 
     public int DifficultyCategory { get; init; }
     public float DifficultyLevel { get; init; }
 
-    public string Description { get; init; }
+    public string Description { get; init; } = "";
 
     // ======== chart data ========
     public string ImagePath { get; init; }
@@ -31,10 +32,10 @@ public class RawChart
     public int LaneCount { get; init; } // the number of logical lanes
     public long OffsetUsec { get; init; } // audio offset [us]
 
-    public RawTempo[] Tempos { get; init; }
-    public RawTimeSignature[] TimeSignatures { get; init; }
-    public RawSvChange[] SvChanges { get; init; }
-    public RawNote[] Notes { get; init; }
+    public RawTempo[] Tempos { get; init; } = Array.Empty<RawTempo>();
+    public RawTimeSignature[] TimeSignatures { get; init; } = Array.Empty<RawTimeSignature>();
+    public RawSvChange[] SvChanges { get; init; } = Array.Empty<RawSvChange>();
+    public RawNote[] Notes { get; init; } = Array.Empty<RawNote>();
     // ======== end ========
 
     public readonly record struct RawTempo
