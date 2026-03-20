@@ -64,7 +64,11 @@ public static class RawChartVerifier
                 // check each element
                 v.Ensure(tsArr[i].Numerator > 0, () => $"non-positive Numerator: {tsArr[i].Numerator}");
                 v.Ensure(tsArr[i].Denominator > 0, () => $"non-positive Denominator: {tsArr[i].Denominator}");
-                v.Ensure(4 * ppqn % tsArr[i].Denominator == 0, () => $"inappropriate PPQN for Denominator = {tsArr[i].Denominator}");
+
+                if(tsArr[i].Denominator > 0) // prevent divide by zero exception
+                {
+                    v.Ensure(4 * ppqn % tsArr[i].Denominator == 0, () => $"inappropriate PPQN for Denominator = {tsArr[i].Denominator}");
+                }
 
                 // check previous element
                 if(i > 0)
