@@ -12,11 +12,14 @@ SRGL은 **Godot 4 (.NET)** 기반의 키보드 리듬게임 라이브러리입�
 - IJudgementStrategy 인터페이스로 노트 종류별 판정 로직을 쉽게 추가할 수 있습니다.
 - JudgementLine, NoteObject, EffectObject 클래스로 비주얼 요소들을 쉽게 디자인 할 수 있습니다.
 ## 🛠️ 설치
-SRGL은 C# 스크립트 기반 라이브러리입니다. **Godot 4 (.NET)** 프로젝트의 하위 경로에 클론하여 사용하세요.
+### (a) SRGL 설치
+SRGL은 C# 스크립트 기반 라이브러리입니다.  
+**Godot 4 (.NET)** 프로젝트의 하위 경로에 클론하여 사용하세요.
 ```bash
 git clone https://github.com/joung2321/SRGL.git
 ```
-데모 프로젝트를 빌드하려면 심볼릭 링크를 생성해야 합니다.
+### (b) QuickStart 데모 빌드
+데모 프로젝트인 [QuickStart](./demo/QuickStart/)를 빌드하려면 심볼릭 링크를 생성해야 합니다.
 ```cmd
 REM Windows
 mklink /J SRGL\demo\QuickStart\addons SRGL\addons
@@ -26,6 +29,17 @@ mklink /J SRGL\demo\QuickStart\addons SRGL\addons
 # [CAUTION] Untested command
 ln -s SRGL/addons SRGL/demo/QuickStart/addons
 ```
+QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 열어 다음과 같이 수정합니다:
+1. 프로젝트를 빌드합니다.
+2. [Main.tscn](./demo/QuickStart/main/Main.tscn)의 JudgementLine을 선택합니다.
+3. Inspector에서, Judgement Points 옆의 🔄️를 누릅니다.
+4. 크기가 4인 배열이 복원되는 것을 확인합니다.
+<p>
+<img src="./assets/quickStart_build_0.png" width="32%">
+<img src="./assets/quickStart_build_1.png" width="32%">
+<img src="./assets/quickStart_build_2.png" width="32%">
+</p>
+
 ## 🚀 퀵 스타트
 본 절에서는 간단한 4키 리듬게임을 구현합니다.  
 자세한 내용은 [demo/QuickStart](./demo/QuickStart/)를 참고하세요.
