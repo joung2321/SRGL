@@ -11,9 +11,8 @@ script = ExtResource("1_qv31u")
 _judgementLine = NodePath("JudgementLine")
 _comboCounter = NodePath("CanvasLayer/ComboCounter")
 
-[node name="JudgementLine" parent="." unique_id=1173708987 node_paths=PackedStringArray("_judgementPoints") instance=ExtResource("2_wbnyf")]
+[node name="JudgementLine" parent="." unique_id=1173708987 instance=ExtResource("2_wbnyf")]
 position = Vector2(640, 576)
-_judgementPoints = []
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2103312138]
 
