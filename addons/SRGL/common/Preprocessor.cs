@@ -96,6 +96,9 @@ public static class Preprocessor
 
     public static ImmutableArray<NoteData> PreprocessNotes(RawChart.RawNote[] rawArr, long ppqn, ImmutableArray<Tempo> tempos, ImmutableArray<TimeSignature> timeSignatures, ImmutableArray<SvChange> svChanges)
     {
+        // check if rawArr is null or empty
+        if(rawArr == null || rawArr.Length <= 0) { return ImmutableArray<NoteData>.Empty; }
+
         // construct array
         int len = rawArr.Length;
         NoteData[] arr = new NoteData[len];
