@@ -67,27 +67,56 @@ public static class Preprocessor
         SvChange[] arr = new SvChange[len];
 
         // fill array
-        arr[0] = new SvChange
-        {
-            StartTimeSec = 0,
-            Multiplier = rawArr[0].Multiplier,
-            Position = 0,
-            Interpolation = rawArr[0].Interpolation
-        };
-
         int cachedIndex = 0;
-        for(int i=1; i<len; i++)
+        for(int i=0; i<len; i++)
         {
-            double st = Converter.TickToTime(rawArr[i].StartTick, ppqn, tempos, ref cachedIndex); // start time
-            double dt = st - arr[i-1].StartTimeSec;
-            double p = arr[i-1].Position + arr[i-1].Multiplier * dt; // position
+            double st, p, d, em; // start time, position, duration, end multiplier
             
+            // start time, position
+            if(i == 0)
+            {
+                st = 0;
+                p = 0;
+            }
+            else
+            {
+                st = Converter.TickToTime(rawArr[i].StartTick, ppqn, tempos, ref cachedIndex);
+
+                switch(rawArr[i-1].Interpolation)
+                {
+                    default:
+                    case InterpolationType.Step:
+                    case InterpolationType.Impulse:
+                    p = arr[i-1].Position + arr[i-1].Multiplier * arr[i-1].DurationSec;
+                    break;
+
+                    case InterpolationType.Linear:
+                    p = (arr[i-1].Multiplier + arr[i-1].EndMultiplier) * arr[i-1].DurationSec / 2;
+                    break;
+                }
+            }
+
+            // duration, end multiplier
+            if(i+1 < len)
+            {
+                d = Converter.TickToTime(rawArr[i+1].StartTick, ppqn, tempos, ref cachedIndex) - st;
+                em = rawArr[i+1].Multiplier;
+            }
+            else
+            {
+                d = double.PositiveInfinity;
+                em = rawArr[i].Multiplier;
+            }
+
             arr[i] = new SvChange
             {
                 StartTimeSec = st,
                 Multiplier = rawArr[i].Multiplier,
                 Position = p,
-                Interpolation = rawArr[i].Interpolation
+                Interpolation = rawArr[i].Interpolation,
+
+                DurationSec = d,
+                EndMultiplier = em
             };
         }
 
@@ -215,7 +244,7 @@ public static class Preprocessor
         List<double> bt = new List<double>(128);
 
         int i = 0; // index for timeSignatures, bt, arr
-        int cachedIndex = 0; // cached index for Converter.TickToTime(), Converter.TimeToPosition()
+        int cachedIndex = 0; // cached index for Converter.TickToTime()
 
         // ======== calculate start times of barlines ========
         // for each time signature
@@ -240,7 +269,7 @@ public static class Preprocessor
         }
 
         // ======== generate note data of barlines ========
-        cachedIndex = 0;
+        cachedIndex = 0; // cached index for Converter.TimeToPosition()
 
         if(bt.Count <= 0) { return ImmutableArray<NoteData>.Empty; }
         else
@@ -267,7 +296,7 @@ public static class Preprocessor
                 NoteVisualData nvd = new NoteVisualData
                 {
                     Lane = Constants.BarlineLane,
-                    Position = bt[i],
+                    Position = Converter.TimeToPosition(bt[i], svChanges, ref cachedIndex),
                     Length = 0,
                     VisualType = Constants.BarlineVisualType
                 };

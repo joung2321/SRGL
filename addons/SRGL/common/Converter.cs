@@ -78,13 +78,18 @@ public static class Converter
         // calculate position
         switch(svChanges[cachedIndex].Interpolation)
         {
-            default:
-            case InterpolationType.Linear:
-            double dt = targetTimeSec - svChanges[cachedIndex].StartTimeSec;
-            return svChanges[cachedIndex].Position + svChanges[cachedIndex].Multiplier * dt;
-
-            case InterpolationType.Discrete:
+            case InterpolationType.Impulse:
             return svChanges[cachedIndex].Position;
+
+            default:
+            case InterpolationType.Step:
+            double dt_s = targetTimeSec - svChanges[cachedIndex].StartTimeSec;
+            return svChanges[cachedIndex].Position + svChanges[cachedIndex].Multiplier * dt_s;
+
+            case InterpolationType.Linear:
+            double dt_l = targetTimeSec - svChanges[cachedIndex].StartTimeSec;
+            double a = (svChanges[cachedIndex].EndMultiplier - svChanges[cachedIndex].Multiplier) / svChanges[cachedIndex].DurationSec;
+            return svChanges[cachedIndex].Position + svChanges[cachedIndex].Multiplier * dt_l + 0.5 * a * (dt_l * dt_l);
         }
     }
 }

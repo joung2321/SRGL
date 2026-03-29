@@ -24,6 +24,9 @@ public record struct SvChange
     public double Multiplier;
     public double Position; // accumulated value of (Multiplier * StartTime) [s]
     public InterpolationType Interpolation;
+
+    public double DurationSec;
+    public double EndMultiplier;
 }
 
 // note data for judgement

@@ -4,8 +4,9 @@ using System;
 
 public enum InterpolationType
 {
-    Linear = 0, // default
-    Discrete = 1 // stop effect
+    Step = 0, // default (no interpolation)
+    Linear,
+    Impulse
 }
 
 [Flags]
