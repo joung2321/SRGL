@@ -91,7 +91,7 @@ public static class Preprocessor
                     break;
 
                     case InterpolationType.Linear:
-                    p = (arr[i-1].Multiplier + arr[i-1].EndMultiplier) * arr[i-1].DurationSec / 2;
+                    p = arr[i-1].Position + (arr[i-1].Multiplier + arr[i-1].EndMultiplier) * arr[i-1].DurationSec / 2;
                     break;
                 }
             }
