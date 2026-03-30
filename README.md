@@ -1,31 +1,38 @@
 # 🎵 Simple Rhythm Game Library (SRGL)
-SRGL은 **Godot 4 (.NET)** 기반의 키보드 리듬게임 라이브러리입니다.  
-캐주얼한 건반형 리듬게임(VSRG) 제작에 특화되어있습니다.  
-현재 2D만 지원합니다.
-## 📖 목차
-- [✨ 특징](#-특징)
-- [🛠️ 설치](#️-설치)
-- [🚀 퀵 스타트](#-퀵-스타트)
-- [🎼 채보 파일 구조](#-채보-파일-구조)
-- [📄 라이선스](#-라이선스)
-## ✨ 특징
-- 게임 로직과 비주얼이 완전히 분리되어 있습니다.
-- JSON 형식의 채보 파일을 사용합니다.
-- 박자표를 기준으로 롱노트 틱과 마디선을 자동으로 생성합니다.
-- 기본적인 스크롤 변속과 정지 연출이 가능합니다.
-- 매 프레임마다 오디오 드리프트를 자동으로 보정합니다.
-- 타이밍 윈도우, 입력 시스템, 사용자 오프셋, 스크롤 속도 등을 커스텀할 수 있습니다.
-- IJudgementStrategy 인터페이스로 노트 종류별 판정 로직을 쉽게 추가할 수 있습니다.
-- JudgementLine, NoteObject, EffectObject 클래스로 비주얼 요소들을 쉽게 디자인 할 수 있습니다.
-## 🛠️ 설치
-### (a) SRGL 설치
-SRGL은 C# 스크립트 기반 라이브러리입니다.  
-**Godot 4 (.NET)** 프로젝트의 하위 경로에 클론하여 사용하세요.
+Other Languages: [한국어](./README.ko.md)
+
+SRGL is a **Godot 4 (.NET)** based keyboard rhythm game library.  
+It is specialized for creating casual Vertical Scrolling Rhythm Games (VSRG).  
+Currently supports 2D only.
+
+## 📖 Table of Contents
+- [✨ Features](#-features)
+- [🛠️ Installation](#️-installation)
+- [🚀 Quick Start](#-quick-start)
+- [🎼 Chart File Structure](#-chart-file-structure)
+- [📄 License](#-license)
+
+## ✨ Features
+- Complete separation of game logic and visuals.
+- Uses JSON format for chart files.
+- Automatically generates long note ticks and barlines based on time signatures.
+- Supports basic scroll velocity (SV) changes and stop effects.
+- Automatically compensates for audio drift every frame.
+- Highly customizable timing windows, input systems, user offsets, and scroll speeds.
+- Easily add custom judgement logic for different note types via the `IJudgementStrategy` interface.
+- Design visual elements effortlessly with `JudgementLine`, `NoteObject`, and `EffectObject` classes.
+
+## 🛠️ Installation
+
+### (a) Installing SRGL
+SRGL is a C# script-based library.  
+Clone it into a subdirectory of your **Godot 4 (.NET)** project.
 ```bash
 git clone https://github.com/joung2321/SRGL.git
 ```
-### (b) QuickStart 데모 빌드
-데모 프로젝트인 [QuickStart](./demo/QuickStart/)를 빌드하려면 심볼릭 링크를 생성해야 합니다.
+
+### (b) Building the QuickStart Demo
+To build the [QuickStart](./demo/QuickStart/) demo project, you need to create a symbolic link.
 ```cmd
 REM Windows
 mklink /J SRGL\demo\QuickStart\addons SRGL\addons
@@ -35,28 +42,30 @@ mklink /J SRGL\demo\QuickStart\addons SRGL\addons
 # [CAUTION] Untested command
 ln -s SRGL/addons SRGL/demo/QuickStart/addons
 ```
-QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 열어 다음과 같이 수정합니다:
-1. 프로젝트를 빌드합니다.
-2. [Main.tscn](./demo/QuickStart/main/Main.tscn)의 JudgementLine을 선택합니다.
-3. Inspector에서, Judgement Points 옆의 🔄️를 누릅니다.
-4. 크기가 4인 배열이 복원되는 것을 확인합니다.
+Open the QuickStart's [project.godot](./demo/QuickStart/project.godot) in the editor and modify it as follows:
+1. Build the project.
+2. Select the JudgementLine node in [Main.tscn](./demo/QuickStart/main/Main.tscn).
+3. In the Inspector, click the 🔄️ icon next to Judgement Points.
+4. Verify that an array of size 4 is restored.
 <p>
 <img src="./assets/quickStart_build_0.png" width="32%">
 <img src="./assets/quickStart_build_1.png" width="32%">
 <img src="./assets/quickStart_build_2.png" width="32%">
 </p>
 
-## 🚀 퀵 스타트
-본 절에서는 간단한 4키 리듬게임을 구현합니다.  
-자세한 내용은 [demo/QuickStart](./demo/QuickStart/)를 참고하세요.
-### 1. 음원 파일 준비
-아래 악보에 대한 음원 파일을 준비합니다. 확장자는 OGG를 권장합니다.  
-본 예제에서는 [quickStart.ogg](./demo/QuickStart/chart/quickStart.ogg)를 사용합니다.
+## 🚀 Quick Start
+This section covers how to implement a simple 4-key rhythm game.  
+For more details, refer to the [demo/QuickStart](./demo/QuickStart/) project.
+
+### 1. Prepare Audio File
+Prepare an audio file for the sheet music below. OGG format is recommended.  
+This example uses [quickStart.ogg](./demo/QuickStart/chart/quickStart.ogg).
 ![quickStart_score](./assets/quickStart_score.png)
-**⚠️주의:** MuseScore를 사용할 경우, MuseScore가 생성한 음원을 Audacity에서 OGG로 다시 저장해야 Godot 4가 정상적으로 로드할 수 있는 OGG 파일이 됩니다.
-### 2. 채보 파일 작성
-채보 파일로 사용할 [quickStart.json](./demo/QuickStart/chart/quickStart.json)을 작성합니다.  
-자세한 사항은 [채보 파일 구조](#-채보-파일-구조)를 참고하세요.
+**⚠️Note:** If you are using MuseScore, you must re-export the generated audio to OGG using Audacity so that Godot 4 can load the file properly.
+
+### 2. Create Chart File
+Create [quickStart.json](./demo/QuickStart/chart/quickStart.json) to use as the chart file.  
+For more details, see the [Chart File Structure](#-chart-file-structure) section.
 ```json
 {
 	"FormatVersion": "1.0.0",
@@ -93,25 +102,26 @@ QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 �
 	]
 }
 ```
-### 3. 비주얼 요소 디자인
-#### a) 판정선, 마디선, 노트
-SRGL이 기본적으로 제공하는
-[JudgementLine.cs](./addons/SRGL/graphics/JudgementLine.cs),
-[BarlineObject.cs](./addons/SRGL/standard/BarlineObject.cs),
-[TapNoteObject.cs](./addons/SRGL/standard/TapNoteObject.cs)로  
+
+### 3. Design Visual Elements
+
+#### a) Judgement Line, Barlines, and Notes
+Design
 [JudgementLine.tscn](./demo/QuickStart/visual/judgementLine/JudgementLine.tscn),
-[BarlineObject.tscn](./demo/QuickStart/visual/BarlineObject.tscn),
-[TapNoteObject.tscn](./demo/QuickStart/visual/note/TapNoteObject.tscn)을 각각 디자인합니다.
+[BarlineObject.tscn](./demo/QuickStart/visual/BarlineObject.tscn), and
+[TapNoteObject.tscn](./demo/QuickStart/visual/note/TapNoteObject.tscn) using the built-in classes provided by SRGL:
+- [`JudgementLine.cs`](./addons/SRGL/graphics/JudgementLine.cs)
+- [`BarlineObject.cs`](./addons/SRGL/standard/BarlineObject.cs)
+- [`TapNoteObject.cs`](./addons/SRGL/standard/TapNoteObject.cs)
 <p>
 <img src="./assets/quickStart_judgementLine.png" width="98.5%">
 <img src="./assets/quickStart_barline.png" width="49%">
 <img src="./assets/quickStart_tapNote.png" width="49%">
 </p>
 
-#### b) 이펙트
-SRGL은 EffectObject.cs의 파생 클래스를 제공하지 않습니다.  
-[HitEffectObject.cs](./demo/QuickStart/visual/effect/HitEffectObject.cs)를 작성하고,
-[HitEffectObject.tscn](./demo/QuickStart/visual/effect/HitEffectObject.tscn)을 디자인합니다.
+#### b) Effects
+SRGL does not provide default derived classes for [`EffectObject.cs`](./addons/SRGL/graphics/EffectObject.cs).  
+You need to write [`HitEffectObject.cs`](./demo/QuickStart/visual/effect/HitEffectObject.cs) and design [HitEffectObject.tscn](./demo/QuickStart/visual/effect/HitEffectObject.tscn).
 ```csharp
 using Godot;
 
@@ -149,8 +159,8 @@ public partial class HitEffectObject : EffectObject
 <img src="./assets/quickStart_hitEffectAnim.png" width="49%">
 </p>
 
-### 4. 게임플레이 로직 작성
-[Main.cs](./demo/QuickStart/main/Main.cs)를 작성합니다. 재미를 위해 [ComboCounter](./addons/SRGL/misc/ComboCounter.cs)를 추가합니다.
+### 4. Write Gameplay Logic
+Write [`Main.cs`](./demo/QuickStart/main/Main.cs). For demonstration purposes, we also add a [`ComboCounter`](./addons/SRGL/misc/ComboCounter.cs).
 ```csharp
 using Godot;
 
@@ -250,61 +260,70 @@ public partial class Main : Node
     }
 }
 ```
-### 5. 게임플레이 씬 디자인
-[Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, JudgementLine.tscn과 ComboCounter로 사용할 Label을 배치하여 게임플레이 씬을 완성합니다.
+
+### 5. Design Gameplay Scene
+Attach `Main.cs` to the root node of [Main.tscn](./demo/QuickStart/main/Main.tscn). Place [JudgementLine.tscn](./demo/QuickStart/visual/judgementLine/JudgementLine.tscn) and a `Label` node for the `ComboCounter` to complete the gameplay scene.
 ![quickStart_main](./assets/quickStart_main.png)
-## 🎼 채보 파일 구조
-SRGL은 JSON 형식의 채보 파일을 사용합니다.
-### (a) 메타데이터
-|Key|typeof(Value)|설명|기본값|
+
+## 🎼 Chart File Structure
+SRGL uses JSON formatted chart files.
+
+### (a) Metadata
+|Key|typeof(Value)|Description|Default|
 |-|-|-|-|
-|FormatVersion|string|파일 포맷 버전<br>(System.Version으로 파싱 가능한 문자열)|
-|Title|string|제목|""|
-|Composer|string|작곡가|""|
-|Illustrator|string|일러스트레이터|""|
-|Charter|string|채보 제작자|""|
-|DifficultyCategory|int|난이도 분류<br>예시: Easy = 0, Normal = 1, Hard = 2|
-|DifficultyLevel|float|난이도 수치<br>예시: 7.8, 9.4, 10.9|
-|Description|string|설명|""|
-### (b) 채보 데이터
-|Key|typeof(Value)|설명|
+|FormatVersion|string|File format version<br>(Parsable by `System.Version`)|
+|Title|string|Title of the track|""|
+|Composer|string|Composer|""|
+|Illustrator|string|Illustrator|""|
+|Charter|string|Chart creator|""|
+|DifficultyCategory|int|Difficulty category<br>e.g., Easy = 0, Normal = 1, Hard = 2|
+|DifficultyLevel|float|Difficulty level<br>e.g., 7.8, 9.4, 10.9|
+|Description|string|Description|""|
+
+### (b) Chart Data
+|Key|typeof(Value)|Description|
 |-|-|-|
-|ImagePath|string|앨범 커버 이미지 파일 경로|
-|AudioPath|string|음원 파일 경로|
-|PPQN|long|4분음표 1개당 <span style="color:gold">틱</span> 수|
-|EndOfTrack|long|마디선 생성 범위 (단위: <span style="color:gold">틱</span>)|
-|LaneCount|int|레인 개수|
-|OffsetUsec|long|음원 파일 기준, 채보의 시작 시점 (단위: us)|
-|Tempos|RawTempo[]|BPM 변화|
-|TimeSignatures|RawTimeSignature[]|박자표 변화|
-|SvChanges|RawSvChange[]|스크롤 속도 변화|
-|Notes|RawNote[]|노트 데이터|
-### (c) RawTempo: BPM 변화
-|Key|축약형|typeof(Value)|설명|
+|ImagePath|string|Album cover image file path|
+|AudioPath|string|Audio file path|
+|PPQN|long|Pulses Per Quarter Note<br>(Number of `ticks` per quarter note)|
+|EndOfTrack|long|Range for generating barlines (Unit: `ticks`)|
+|LaneCount|int|Number of lanes|
+|OffsetUsec|long|Chart start offset relative to the audio file (Unit: `us`)|
+|Tempos|RawTempo[]|BPM changes|
+|TimeSignatures|RawTimeSignature[]|Time signature changes|
+|SvChanges|RawSvChange[]|Scroll velocity changes|
+|Notes|RawNote[]|Note data|
+
+### (c) RawTempo: BPM Changes
+|Key|Abbr.|typeof(Value)|Description|
 |-|-|-|-|
-|StartTick|S|long|BPM 변화 시점 (단위: <span style="color:gold">틱</span>)|
-|Bpm|B|double|BPM 값|
-### (d) RawTimeSignature: 박자표 변화
-|Key|축약형|typeof(Value)|설명|
+|StartTick|S|long|BPM change point (Unit: `ticks`)|
+|Bpm|B|double|BPM value|
+
+### (d) RawTimeSignature: Time Signature Changes
+|Key|Abbr.|typeof(Value)|Description|
 |-|-|-|-|
-|StartTick|S|long|박자표 변화 시점 (단위: <span style="color:gold">틱</span>)|
-|Numerator|N|int|박자표의 분자|
-|Denominator|D|int|박자표의 분모|
-### (e) RawSvChange: 스크롤 속도(Scroll Velocity) 변화
-|Key|축약형|typeof(Value)|설명|기본값|
+|StartTick|S|long|Time signature change point (Unit: `ticks`)|
+|Numerator|N|int|Numerator of the time signature|
+|Denominator|D|int|Denominator of the time signature|
+
+### (e) RawSvChange: Scroll Velocity (SV) Changes
+|Key|Abbr.|typeof(Value)|Description|Default|
 |-|-|-|-|-|
-|StartTick|S|long|스크롤 속도 변화 시점 (단위: <span style="color:gold">틱</span>)|
-|Multiplier|M|double|스크롤 속도 (정상 속도 = 1.0)|
-|Interpolation|I|[InterpolationType](./addons/SRGL/common/Enums.cs)|스크롤 속도 보간 방식<br>0 = Step: 보간 없음<br>1 = Linear: 선형 보간<br>2 = Impulse: 스크롤 정지|0 = Step|
-### (f) RawNote: 노트 데이터
-|Key|축약형|typeof(Value)|설명|기본값|
+|StartTick|S|long|SV change point (Unit: `ticks`)|
+|Multiplier|M|double|Scroll speed multiplier (Normal speed = 1.0)|
+|Interpolation|I|[InterpolationType](./addons/SRGL/common/Enums.cs)|SV interpolation method<br>0 = `Step`: No interpolation<br>1 = `Linear`: Linear interpolation<br>2 = `Impulse`: Stop scrolling|0 = `Step`|
+
+### (f) RawNote: Note Data
+|Key|Abbr.|typeof(Value)|Description|Default|
 |-|-|-|-|-|
-|StartTick|S|long|노트 시작 시점 (단위: <span style="color:gold">틱</span>)|
-|EndTick|E|long|노트 종료 시점 (단위: <span style="color:gold">틱</span>)<br>(롱노트: StartTick < EndTick)|
-|Lane|L|int|레인 인덱스|
-|LogicType|J|int|판정 로직의 종류<br>([JudgementQueue](./addons/SRGL/judgement/JudgementQueue.cs).AddStrategy()의 매개변수 logicType에 해당)|0|
-|VisualType|V|int|노트 오브젝트의 종류<br>([NoteManager](./addons/SRGL/manager/NoteManager.cs).AddNoteType()의 매개변수 visualType에 해당)|0|
-|TickRate|T|int|롱노트 틱 생성시, (Denominator)분음표 1개를 TickRate개로 분할|
-|NoteOptions|O|[NoteOptions](./addons/SRGL/common/Enums.cs)|노트별 추가 옵션<br>1 << 0 = Dummy: 더미 노트<br>~~1 << 1 = AllowHoldAgain: 놓친 롱노트를 다시 홀드할 수 있음~~<br>~~1 << 2 = CheckRelease: 떼는 판정 활성화~~|0|
-## 📄 라이선스
-SRGL은 MIT 라이선스를 따릅니다.
+|StartTick|S|long|Note start point (Unit: `ticks`)|
+|EndTick|E|long|Note end point (Unit: `ticks`)<br>(For Long notes: `StartTick` < `EndTick`)|
+|Lane|L|int|Lane index|
+|LogicType|J|int|Type of judgement logic<br>(Corresponds to the `logicType` parameter in `JudgementQueue.AddStrategy()`)|0|
+|VisualType|V|int|Type of note object<br>(Corresponds to the `visualType` parameter in `NoteManager.AddNoteType()`)|0|
+|TickRate|T|int|Splits 1 (`Denominator`)-th note into `TickRate` segments when generating long note ticks|
+|NoteOptions|O|[NoteOptions](./addons/SRGL/common/Enums.cs)|Additional options per note<br>1 << 0 = `Dummy`: Dummy note<br>~~1 << 1 = `AllowHoldAgain`: Can re-hold a missed long note~~<br>~~1 << 2 = `CheckRelease`: Enable release judgement~~|0|
+
+## 📄 License
+SRGL is released under the MIT License.
