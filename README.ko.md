@@ -1,7 +1,7 @@
 # 🎵 Simple Rhythm Game Library (SRGL)
 Other Languages: [English](./README.md)
 
-SRGL은 **Godot 4 (.NET)** 기반의 키보드 리듬게임 라이브러리입니다.  
+SRGL은 **Godot 4.6 (.NET)** 기반의 키보드 리듬게임 라이브러리입니다.  
 캐주얼한 건반형 리듬게임(VSRG) 제작에 특화되어있습니다.  
 현재 2D만 지원합니다.
 
@@ -26,7 +26,7 @@ SRGL은 **Godot 4 (.NET)** 기반의 키보드 리듬게임 라이브러리입�
 
 ### (a) SRGL 설치
 SRGL은 C# 스크립트 기반 라이브러리입니다.  
-**Godot 4 (.NET)** 프로젝트의 하위 경로에 클론하여 사용하세요.
+**Godot 4.6 (.NET)** 프로젝트의 하위 경로에 클론하여 사용하세요.
 ```bash
 git clone https://github.com/joung2321/SRGL.git
 ```
@@ -61,7 +61,7 @@ QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 �
 아래 악보에 대한 음원 파일을 준비합니다. 확장자는 OGG를 권장합니다.  
 본 예제에서는 [quickStart.ogg](./demo/QuickStart/chart/quickStart.ogg)를 사용합니다.
 ![quickStart_score](./assets/quickStart_score.png)
-**⚠️주의:** MuseScore를 사용할 경우, MuseScore가 생성한 음원을 Audacity에서 OGG로 다시 저장해야 Godot 4가 정상적으로 로드할 수 있는 OGG 파일이 됩니다.
+**⚠️주의:** MuseScore를 사용할 경우, MuseScore가 생성한 음원을 Audacity에서 OGG로 다시 저장해야 Godot 4.6에서 정상적으로 로드할 수 있는 OGG 파일이 됩니다.
 
 ### 2. 채보 파일 작성
 채보 파일로 사용할 [quickStart.json](./demo/QuickStart/chart/quickStart.json)을 작성합니다.  

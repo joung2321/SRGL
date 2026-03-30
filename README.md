@@ -1,7 +1,7 @@
 # 🎵 Simple Rhythm Game Library (SRGL)
 Other Languages: [한국어](./README.ko.md)
 
-SRGL is a **Godot 4 (.NET)** based keyboard rhythm game library.  
+SRGL is a **Godot 4.6 (.NET)** based keyboard rhythm game library.  
 It is specialized for creating casual Vertical Scrolling Rhythm Games (VSRG).  
 Currently supports 2D only.
 
@@ -26,7 +26,7 @@ Currently supports 2D only.
 
 ### (a) Installing SRGL
 SRGL is a C# script-based library.  
-Clone it into a subdirectory of your **Godot 4 (.NET)** project.
+Clone it into a subdirectory of your **Godot 4.6 (.NET)** project.
 ```bash
 git clone https://github.com/joung2321/SRGL.git
 ```
@@ -61,7 +61,7 @@ For more details, refer to the [demo/QuickStart](./demo/QuickStart/) project.
 Prepare an audio file for the sheet music below. OGG format is recommended.  
 This example uses [quickStart.ogg](./demo/QuickStart/chart/quickStart.ogg).
 ![quickStart_score](./assets/quickStart_score.png)
-**⚠️Note:** If you are using MuseScore, you must re-export the generated audio to OGG using Audacity so that Godot 4 can load the file properly.
+**⚠️Note:** If you are using MuseScore, you must re-export the generated audio to OGG using Audacity so that Godot 4.6 can load the file properly.
 
 ### 2. Create Chart File
 Create [quickStart.json](./demo/QuickStart/chart/quickStart.json) to use as the chart file.  
