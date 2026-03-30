@@ -6,6 +6,9 @@
    id="svg6"
    sodipodi:docname="icon.svg"
    inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   inkscape:export-filename="icon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +34,7 @@
      showgrid="true"
      inkscape:zoom="4"
      inkscape:cx="42.875"
-     inkscape:cy="56.875001"
+     inkscape:cy="56.875"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -266,9 +269,9 @@
      inkscape:label="text"><tspan
        x="27.354492"
        y="115.16"
-       id="tspan3"><tspan
+       id="tspan4"><tspan
          style="font-family:'Noto Serif KR';-inkscape-font-specification:'Noto Serif KR';fill:#ffffff"
-         id="tspan1">SRGL</tspan></tspan></text>
+         id="tspan2">SRGL</tspan></tspan></text>
   <rect
      style="fill:#478cbf;fill-opacity:1;stroke-width:0.942809"
      id="rect7"
