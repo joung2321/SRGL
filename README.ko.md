@@ -1,4 +1,8 @@
-# 🎵 Simple Rhythm Game Library (SRGL)
+<div align="center">
+<img alt="icon" src="./icon.svg" />
+<h1 align="center">Simple Rhythm Game Library</h1>
+</div>
+
 Other Languages: [English](./README.md)
 
 SRGL은 **Godot 4.6 (.NET)** 기반의 키보드 리듬게임 라이브러리입니다.  
