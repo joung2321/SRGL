@@ -2,6 +2,12 @@
 SRGL은 **Godot 4 (.NET)** 기반의 키보드 리듬게임 라이브러리입니다.  
 캐주얼한 건반형 리듬게임(VSRG) 제작에 특화되어있습니다.  
 현재 2D만 지원합니다.
+## 📖 목차
+- [✨ 특징](#-특징)
+- [🛠️ 설치](#️-설치)
+- [🚀 퀵 스타트](#-퀵-스타트)
+- [🎼 채보 파일 구조](#-채보-파일-구조)
+- [📄 라이선스](#-라이선스)
 ## ✨ 특징
 - 게임 로직과 비주얼이 완전히 분리되어 있습니다.
 - JSON 형식의 채보 파일을 사용합니다.
@@ -49,7 +55,8 @@ QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 �
 ![quickStart_score](./assets/quickStart_score.png)
 **⚠️주의:** MuseScore를 사용할 경우, MuseScore가 생성한 음원을 Audacity에서 OGG로 다시 저장해야 Godot 4가 정상적으로 로드할 수 있는 OGG 파일이 됩니다.
 ### 2. 채보 파일 작성
-채보 파일로 사용할 [quickStart.json](./demo/QuickStart/chart/quickStart.json)을 작성합니다.
+채보 파일로 사용할 [quickStart.json](./demo/QuickStart/chart/quickStart.json)을 작성합니다.  
+자세한 사항은 [채보 파일 구조](#-채보-파일-구조)를 참고하세요.
 ```json
 {
 	"FormatVersion": "1.0.0",
@@ -86,7 +93,6 @@ QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 �
 	]
 }
 ```
-채보 파일 구조: 작성예정
 ### 3. 비주얼 요소 디자인
 #### a) 판정선, 마디선, 노트
 SRGL이 기본적으로 제공하는
@@ -247,5 +253,58 @@ public partial class Main : Node
 ### 5. 게임플레이 씬 디자인
 [Main.tscn](./demo/QuickStart/main/Main.tscn)의 루트 노드에 Main.cs를 부착하고, JudgementLine.tscn과 ComboCounter로 사용할 Label을 배치하여 게임플레이 씬을 완성합니다.
 ![quickStart_main](./assets/quickStart_main.png)
+## 🎼 채보 파일 구조
+SRGL은 JSON 형식의 채보 파일을 사용합니다.
+### (a) 메타데이터
+|Key|typeof(Value)|설명|기본값|
+|-|-|-|-|
+|FormatVersion|string|파일 포맷 버전<br>(System.Version으로 파싱 가능한 문자열)|
+|Title|string|제목|""|
+|Composer|string|작곡가|""|
+|Illustrator|string|일러스트레이터|""|
+|Charter|string|채보 제작자|""|
+|DifficultyCategory|int|난이도 분류<br>예시: Easy = 0, Normal = 1, Hard = 2|
+|DifficultyLevel|float|난이도 수치<br>예시: 7.8, 9.4, 10.9|
+|Description|string|설명|""|
+### (b) 채보 데이터
+|Key|typeof(Value)|설명|
+|-|-|-|
+|ImagePath|string|앨범 커버 이미지 파일 경로|
+|AudioPath|string|음원 파일 경로|
+|PPQN|long|4분음표 1개당 <span style="color:gold">틱</span> 수|
+|EndOfTrack|long|마디선 생성 범위 (단위: <span style="color:gold">틱</span>)|
+|LaneCount|int|레인 개수|
+|OffsetUsec|long|음원 파일 기준, 채보의 시작 시점 (단위: us)|
+|Tempos|RawTempo[]|BPM 변화|
+|TimeSignatures|RawTimeSignature[]|박자표 변화|
+|SvChanges|RawSvChange[]|스크롤 속도 변화|
+|Notes|RawNote[]|노트 데이터|
+### (c) RawTempo: BPM 변화
+|Key|축약형|typeof(Value)|설명|
+|-|-|-|-|
+|StartTick|S|long|BPM 변화 시점 (단위: <span style="color:gold">틱</span>)|
+|Bpm|B|double|BPM 값|
+### (d) RawTimeSignature: 박자표 변화
+|Key|축약형|typeof(Value)|설명|
+|-|-|-|-|
+|StartTick|S|long|박자표 변화 시점 (단위: <span style="color:gold">틱</span>)|
+|Numerator|N|int|박자표의 분자|
+|Denominator|D|int|박자표의 분모|
+### (e) RawSvChange: 스크롤 속도(Scroll Velocity) 변화
+|Key|축약형|typeof(Value)|설명|기본값|
+|-|-|-|-|-|
+|StartTick|S|long|스크롤 속도 변화 시점 (단위: <span style="color:gold">틱</span>)|
+|Multiplier|M|double|스크롤 속도 (정상 속도 = 1.0)|
+|Interpolation|I|[InterpolationType](./addons/SRGL/common/Enums.cs)|스크롤 속도 보간 방식<br>0 = Step: 보간 없음<br>1 = Linear: 선형 보간<br>2 = Impulse: 스크롤 정지|0 = Step|
+### (f) RawNote: 노트 데이터
+|Key|축약형|typeof(Value)|설명|기본값|
+|-|-|-|-|-|
+|StartTick|S|long|노트 시작 시점 (단위: <span style="color:gold">틱</span>)|
+|EndTick|E|long|노트 종료 시점 (단위: <span style="color:gold">틱</span>)<br>(롱노트: StartTick < EndTick)|
+|Lane|L|int|레인 인덱스|
+|LogicType|J|int|판정 로직의 종류<br>([JudgementQueue](./addons/SRGL/judgement/JudgementQueue.cs).AddStrategy()의 매개변수 logicType에 해당)|0|
+|VisualType|V|int|노트 오브젝트의 종류<br>([NoteManager](./addons/SRGL/manager/NoteManager.cs).AddNoteType()의 매개변수 visualType에 해당)|0|
+|TickRate|T|int|롱노트 틱 생성시, (Denominator)분음표 1개를 TickRate개로 분할|
+|NoteOptions|O|[NoteOptions](./addons/SRGL/common/Enums.cs)|노트별 추가 옵션<br>1 << 0 = Dummy: 더미 노트<br>~~1 << 1 = AllowHoldAgain: 놓친 롱노트를 다시 홀드할 수 있음~~<br>~~1 << 2 = CheckRelease: 떼는 판정 활성화~~|0|
 ## 📄 라이선스
 SRGL은 MIT 라이선스를 따릅니다.
