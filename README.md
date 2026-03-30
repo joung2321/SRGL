@@ -72,7 +72,7 @@ Create [quickStart.json](./demo/QuickStart/chart/quickStart.json) to use as the 
 For more details, see the [Chart File Structure](#-chart-file-structure) section.
 ```json
 {
-	"FormatVersion": "1.0.0",
+	"FormatVersion": "0.1.0",
 	"Title": "",
 
 	"AudioPath": "res://chart/quickStart.ogg",

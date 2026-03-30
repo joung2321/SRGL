@@ -72,7 +72,7 @@ QuickStart의 [project.godot](./demo/QuickStart/project.godot)를 에디터로 �
 자세한 사항은 [채보 파일 구조](#-채보-파일-구조)를 참고하세요.
 ```json
 {
-	"FormatVersion": "1.0.0",
+	"FormatVersion": "0.1.0",
 	"Title": "",
 
 	"AudioPath": "res://chart/quickStart.ogg",
