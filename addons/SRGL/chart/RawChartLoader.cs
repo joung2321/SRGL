@@ -35,10 +35,10 @@ public static class RawChartLoader
         }
 
         // sort arrays
-        if(rc.Tempos         != null) { Array.Sort(rc.Tempos,         (a, b) => a.StartTick.CompareTo(b.StartTick)); }
-        if(rc.TimeSignatures != null) { Array.Sort(rc.TimeSignatures, (a, b) => a.StartTick.CompareTo(b.StartTick)); }
-        if(rc.SvChanges      != null) { Array.Sort(rc.SvChanges,      (a, b) => a.StartTick.CompareTo(b.StartTick)); }
-        if(rc.Notes          != null) { Array.Sort(rc.Notes,          (a, b) => a.StartTick.CompareTo(b.StartTick)); }
+        if(rc.Tempos         != null) { Array.Sort(rc.Tempos); }
+        if(rc.TimeSignatures != null) { Array.Sort(rc.TimeSignatures); }
+        if(rc.SvChanges      != null) { Array.Sort(rc.SvChanges); }
+        if(rc.Notes          != null) { Array.Sort(rc.Notes); }
 
         // verify rc
         RawChartVerifier.Verify(rc);

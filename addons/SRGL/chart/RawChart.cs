@@ -38,16 +38,19 @@ public class RawChart
     public RawNote[] Notes { get; init; } = Array.Empty<RawNote>();
     // ======== end ========
 
-    public readonly record struct RawTempo
+    public readonly record struct RawTempo : IComparable<RawTempo>
     {
         [JsonPropertyName("S")]
         public long StartTick { get; init; }
 
         [JsonPropertyName("B")]
         public double Bpm { get; init; }
+
+        // sort by StartTick
+        public int CompareTo(RawTempo other) { return StartTick.CompareTo(other.StartTick); }
     }
     
-    public readonly record struct RawTimeSignature
+    public readonly record struct RawTimeSignature : IComparable<RawTimeSignature>
     {
         [JsonPropertyName("S")]
         public long StartTick { get; init; }
@@ -57,9 +60,12 @@ public class RawChart
 
         [JsonPropertyName("D")]
         public int Denominator { get; init; }
+
+        // sort by StartTick
+        public int CompareTo(RawTimeSignature other) { return StartTick.CompareTo(other.StartTick); }
     }
 
-    public readonly record struct RawSvChange // Scroll Velocity
+    public readonly record struct RawSvChange : IComparable<RawSvChange> // Scroll Velocity
     {
         [JsonPropertyName("S")]
         public long StartTick { get; init; }
@@ -69,9 +75,12 @@ public class RawChart
 
         [JsonPropertyName("I")]
         public InterpolationType Interpolation { get; init; }
+
+        // sort by StartTick
+        public int CompareTo(RawSvChange other) { return StartTick.CompareTo(other.StartTick); }
     }
     
-    public readonly record struct RawNote
+    public readonly record struct RawNote : IComparable<RawNote>
     {
         [JsonPropertyName("S")]
         public long StartTick { get; init; }
@@ -96,5 +105,8 @@ public class RawChart
         
         [JsonPropertyName("O")]
         public NoteOptions Options { get; init; }
+
+        // sort by StartTick
+        public int CompareTo(RawNote other) { return StartTick.CompareTo(other.StartTick); }
     }
 }
