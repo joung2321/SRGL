@@ -48,6 +48,9 @@ public class RawChart
 
         // sort by StartTick
         public int CompareTo(RawTempo other) { return StartTick.CompareTo(other.StartTick); }
+
+        // validity
+        public bool IsValid => StartTick >= 0 && Bpm > 0;
     }
     
     public readonly record struct RawTimeSignature : IComparable<RawTimeSignature>
@@ -63,6 +66,9 @@ public class RawChart
 
         // sort by StartTick
         public int CompareTo(RawTimeSignature other) { return StartTick.CompareTo(other.StartTick); }
+
+        // validity
+        public bool IsValid => StartTick >= 0 && Numerator > 0 && Denominator > 0;
     }
 
     public readonly record struct RawSvChange : IComparable<RawSvChange> // Scroll Velocity
@@ -78,6 +84,9 @@ public class RawChart
 
         // sort by StartTick
         public int CompareTo(RawSvChange other) { return StartTick.CompareTo(other.StartTick); }
+
+        // validity
+        public bool IsValid => StartTick >= 0;
     }
     
     public readonly record struct RawNote : IComparable<RawNote>
@@ -108,5 +117,8 @@ public class RawChart
 
         // sort by StartTick
         public int CompareTo(RawNote other) { return StartTick.CompareTo(other.StartTick); }
+
+        // validity
+        public bool IsValid(int laneCount) { return StartTick >= 0 && 0 <= Lane && Lane < laneCount && TickRate >= 0; }
     }
 }
