@@ -57,6 +57,7 @@ public static class RawChartLoader
         // read the file
         Godot.FileAccess file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
         string json = file.GetAsText();
+        file.Close();
         
         // parse json
         try
