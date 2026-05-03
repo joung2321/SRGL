@@ -12,7 +12,6 @@ public static class RawChartVerifier
         v.Ensure(Version.TryParse(rawChart.FormatVersion, out _), "invalid FormatVersion");
         
         // ======== chart data ========
-        v.Ensure(rawChart.AudioPath != null, "null AudioPath");
         v.Ensure(rawChart.PPQN > 0, "non-positive PPQN");
         v.Ensure(rawChart.LaneCount >= 0, "negative LaneCount");
         
