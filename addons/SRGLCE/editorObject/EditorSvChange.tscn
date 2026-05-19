@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c7485ru4aitdi"]
+
+[ext_resource type="Script" uid="uid://2es28lvakusd" path="res://addons/SRGLCE/editorObject/EditorSvChange.cs" id="1_g3trf"]
+[ext_resource type="LabelSettings" uid="uid://dvnw7c2ifhock" path="res://addons/SRGLCE/editorObject/EditorObject.tres" id="2_7ce0f"]
+
+[node name="EditorSvChange" type="Node2D" unique_id=174961277 node_paths=PackedStringArray("_label")]
+script = ExtResource("1_g3trf")
+_label = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=263572413]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+text = "x1.0"
+label_settings = ExtResource("2_7ce0f")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Line2D" type="Line2D" parent="." unique_id=254363164]
+points = PackedVector2Array(-16, 0, 16, 0)
+width = 1.0

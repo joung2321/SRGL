@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://dyhwt4jajwemg"]
+
+[ext_resource type="Script" uid="uid://7yachl82oh74" path="res://addons/SRGLCE/MainPanel.cs" id="1_tvulh"]
+
+[node name="MainPanel" type="Control" unique_id=559173630]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+script = ExtResource("1_tvulh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1230471640]
+layout_mode = 1
+offset_right = 129.0
+offset_bottom = 31.0
+
+[node name="MenuBar" type="MenuBar" parent="HBoxContainer" unique_id=528555824]
+layout_mode = 2
+
+[node name="File" type="PopupMenu" parent="HBoxContainer/MenuBar" unique_id=161256141]
+item_count = 5
+item_0/text = "New"
+item_0/id = 0
+item_1/text = "Open"
+item_1/id = 1
+item_2/text = "Close"
+item_2/id = 2
+item_3/text = "Save"
+item_3/id = 3
+item_4/text = "SaveAs"
+item_4/id = 4
+
+[node name="Type" type="PopupMenu" parent="HBoxContainer/MenuBar" unique_id=534056821]
+item_count = 5
+item_0/text = "Metadata"
+item_0/id = 0
+item_1/text = "Tempo"
+item_1/id = 1
+item_2/text = "TimeSignature"
+item_2/id = 2
+item_3/text = "SvChange"
+item_3/id = 3
+item_4/text = "Note"
+item_4/id = 4
+
+[node name="Grid" type="PopupMenu" parent="HBoxContainer/MenuBar" unique_id=87322473]
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1440587528]
+layout_mode = 2
+text = "Mode"
+
+[node name="Mode" type="OptionButton" parent="HBoxContainer" unique_id=1334830799]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Input"
+popup/item_0/id = 0
+popup/item_1/text = "Edit"
+popup/item_1/id = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer" unique_id=1688697253]
+layout_mode = 2
+text = "Grid Division"
+
+[node name="GridDivision" type="LineEdit" parent="HBoxContainer" unique_id=1697950199]
+layout_mode = 2
+editable = false

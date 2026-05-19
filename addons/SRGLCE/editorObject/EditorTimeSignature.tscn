@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dnanabwyhhohl"]
+
+[ext_resource type="Script" uid="uid://rolkyxxcvl3q" path="res://addons/SRGLCE/editorObject/EditorTimeSignature.cs" id="1_iw3vh"]
+[ext_resource type="LabelSettings" uid="uid://dvnw7c2ifhock" path="res://addons/SRGLCE/editorObject/EditorObject.tres" id="2_ywr3u"]
+
+[node name="EditorTimeSignature" type="Node2D" unique_id=1915371870 node_paths=PackedStringArray("_label")]
+script = ExtResource("1_iw3vh")
+_label = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=1075516678]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "4/4"
+label_settings = ExtResource("2_ywr3u")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Line2D" type="Line2D" parent="." unique_id=599603385]
+points = PackedVector2Array(-16, 0, 16, 0)
+width = 1.0

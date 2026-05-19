@@ -1,0 +1,185 @@
+[gd_scene format=3 uid="uid://dfpguhgpc316t"]
+
+[ext_resource type="Script" uid="uid://cpahiapvu46fe" path="res://addons/SRGLCE/ChartInspector.cs" id="1_h3hyq"]
+
+[node name="ChartInspector" type="VBoxContainer" unique_id=1139960691 node_paths=PackedStringArray("_insp_startTick", "_insp_t", "_insp_ts", "_insp_svc", "_insp_n")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h3hyq")
+_insp_startTick = NodePath("_insp_startTick")
+_insp_t = NodePath("_insp_t")
+_insp_ts = NodePath("_insp_ts")
+_insp_svc = NodePath("_insp_svc")
+_insp_n = NodePath("_insp_n")
+
+[node name="_insp_startTick" type="HBoxContainer" parent="." unique_id=1781878222]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_startTick" unique_id=139949056]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "StartTick"
+
+[node name="StartTick" type="LineEdit" parent="_insp_startTick" unique_id=258222578]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="_insp_t" type="VBoxContainer" parent="." unique_id=1460751615]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="_insp_t" unique_id=1381987123]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_t/HBoxContainer2" unique_id=299270961]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BPM"
+
+[node name="Bpm" type="LineEdit" parent="_insp_t/HBoxContainer2" unique_id=2078882837]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="_insp_ts" type="VBoxContainer" parent="." unique_id=610930412]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="_insp_ts" unique_id=190235989]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_ts/HBoxContainer2" unique_id=1147604803]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Numerator"
+
+[node name="Numerator" type="LineEdit" parent="_insp_ts/HBoxContainer2" unique_id=1522169433]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="_insp_ts" unique_id=1210771350]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_ts/HBoxContainer3" unique_id=1205220044]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Denominator"
+
+[node name="Denominator" type="LineEdit" parent="_insp_ts/HBoxContainer3" unique_id=1144177209]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="_insp_svc" type="VBoxContainer" parent="." unique_id=61321164]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="_insp_svc" unique_id=561481510]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_svc/HBoxContainer2" unique_id=2030540170]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Multiplier"
+
+[node name="Multiplier" type="LineEdit" parent="_insp_svc/HBoxContainer2" unique_id=884386858]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="_insp_svc" unique_id=103105279]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_svc/HBoxContainer3" unique_id=209941105]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Interpolation"
+
+[node name="Interpolation" type="OptionButton" parent="_insp_svc/HBoxContainer3" unique_id=1331668102]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "Step"
+popup/item_0/id = 0
+popup/item_1/text = "Linear"
+popup/item_1/id = 1
+popup/item_2/text = "Impulse"
+popup/item_2/id = 2
+
+[node name="_insp_n" type="VBoxContainer" parent="." unique_id=1335690083]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="_insp_n" unique_id=1490899712]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_n/HBoxContainer2" unique_id=896654569]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "EndTick"
+
+[node name="EndTick" type="LineEdit" parent="_insp_n/HBoxContainer2" unique_id=345722158]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="_insp_n" unique_id=1819604796]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_n/HBoxContainer3" unique_id=137034732]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Lane"
+
+[node name="Lane" type="LineEdit" parent="_insp_n/HBoxContainer3" unique_id=1031484601]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="_insp_n" unique_id=212837488]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_n/HBoxContainer4" unique_id=503394088]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "LogicType"
+
+[node name="LogicType" type="LineEdit" parent="_insp_n/HBoxContainer4" unique_id=2077503278]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="_insp_n" unique_id=240917741]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_n/HBoxContainer5" unique_id=448192779]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "VisualType"
+
+[node name="VisualType" type="LineEdit" parent="_insp_n/HBoxContainer5" unique_id=611117347]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="_insp_n" unique_id=1539526783]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_n/HBoxContainer6" unique_id=1482948291]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "TickRate"
+
+[node name="TickRate" type="LineEdit" parent="_insp_n/HBoxContainer6" unique_id=617056230]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="_insp_n" unique_id=1500390727]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="_insp_n/HBoxContainer7" unique_id=690039451]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Options"
+
+[node name="Options" type="LineEdit" parent="_insp_n/HBoxContainer7" unique_id=343617126]
+layout_mode = 2
+size_flags_horizontal = 3

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://5ex0lgvfa2ap"]
+
+[ext_resource type="Script" uid="uid://cu0ae6iajmrt" path="res://addons/SRGLCE/editorObject/EditorTempo.cs" id="1_wrj0s"]
+[ext_resource type="LabelSettings" uid="uid://dvnw7c2ifhock" path="res://addons/SRGLCE/editorObject/EditorObject.tres" id="2_qft1g"]
+
+[node name="EditorTempo" type="Node2D" unique_id=174961277 node_paths=PackedStringArray("_label")]
+script = ExtResource("1_wrj0s")
+_label = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=263572413]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -93.0
+offset_top = -28.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "♩ = 222.22"
+label_settings = ExtResource("2_qft1g")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Line2D" type="Line2D" parent="." unique_id=602306184]
+points = PackedVector2Array(-16, 0, 16, 0)
+width = 1.0
