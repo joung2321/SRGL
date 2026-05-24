@@ -67,6 +67,7 @@ public partial class ChartInspector : Control
         _le_startTick.Editable = false;
         _le_lane.Editable = false;
         
+        _ob_interpolation.Clear();
         foreach(InterpolationType it in Enum.GetValues(typeof(InterpolationType)))
         {
             _ob_interpolation.AddItem(it.ToString(), (int)it);
