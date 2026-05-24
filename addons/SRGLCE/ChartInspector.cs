@@ -32,23 +32,48 @@ public partial class ChartInspector : Control
     private LineEdit _le_visualType;
     private LineEdit _le_tickRate;
 
+    /*
+    public event Action TempoEdited;
+    public event Action TimeSignatureEdited;
+    public event Action SvChangeEdited;
+    public event Action NoteEdited;
+    */
+    
     public override void _Ready()
     {
-        _le_startTick = (LineEdit)FindChild("StartTick"); // common field
+        // common field
+        _le_startTick = (LineEdit)FindChild("StartTick");
         _le_startTick.Editable = false;
 
+        // tempo
         _le_bpm = (LineEdit)FindChild("Bpm");
+
+        // time signature
         _le_numerator = (LineEdit)FindChild("Numerator");
         _le_denominator = (LineEdit)FindChild("Denominator");
+
+        // sv change
         _le_multiplier = (LineEdit)FindChild("Multiplier");
         _ob_interpolation = (OptionButton)FindChild("Interpolation");
 
+        // note
+        _le_endTick = (LineEdit)FindChild("EndTick");
+        _le_lane = (LineEdit)FindChild("Lane");
+        _le_logicType = (LineEdit)FindChild("LogicType");
+        _le_visualType = (LineEdit)FindChild("VisualType");
+        _le_tickRate = (LineEdit)FindChild("TickRate");
+
+        // uneditable fields
+        _le_startTick.Editable = false;
+        _le_lane.Editable = false;
+        
         foreach(InterpolationType it in Enum.GetValues(typeof(InterpolationType)))
         {
             _ob_interpolation.AddItem(it.ToString(), (int)it);
         }
 
         SetType(TypeMenu.Metadata);
+        SetMode(ModeMenu.Input);
     }
 
     public void SetType(TypeMenu type)
@@ -64,6 +89,7 @@ public partial class ChartInspector : Control
     public void SetMode(ModeMenu mode)
     {
         _le_startTick.Visible = mode == ModeMenu.Edit;
+        _le_lane.Visible = mode == ModeMenu.Edit;
     }
 
     public RawChart.RawTempo ParseTempo()

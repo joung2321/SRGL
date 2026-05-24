@@ -15,10 +15,11 @@ size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("1_tvulh")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1230471640]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1275305054]
 layout_mode = 1
-offset_right = 129.0
+offset_right = 371.0
 offset_bottom = 31.0
+alignment = 1
 
 [node name="MenuBar" type="MenuBar" parent="HBoxContainer" unique_id=528555824]
 layout_mode = 2
@@ -36,35 +37,31 @@ item_3/id = 3
 item_4/text = "SaveAs"
 item_4/id = 4
 
-[node name="Type" type="PopupMenu" parent="HBoxContainer/MenuBar" unique_id=534056821]
-item_count = 5
-item_0/text = "Metadata"
-item_0/id = 0
-item_1/text = "Tempo"
-item_1/id = 1
-item_2/text = "TimeSignature"
-item_2/id = 2
-item_3/text = "SvChange"
-item_3/id = 3
-item_4/text = "Note"
-item_4/id = 4
-
-[node name="Grid" type="PopupMenu" parent="HBoxContainer/MenuBar" unique_id=87322473]
-
 [node name="Label" type="Label" parent="HBoxContainer" unique_id=1440587528]
 layout_mode = 2
+tooltip_text = "Shortcuts:
+Q - Metadata
+W - Tempo
+E - TimeSignature
+R - SvChange
+T - Note"
+mouse_filter = 0
+text = "Type"
+
+[node name="Type" type="OptionButton" parent="HBoxContainer" unique_id=1315412927]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBoxContainer" unique_id=1688697253]
+layout_mode = 2
+tooltip_text = "Toggle Editor Mode
+Shortcut: ( ` ) (tilde)"
+mouse_filter = 0
 text = "Mode"
 
 [node name="Mode" type="OptionButton" parent="HBoxContainer" unique_id=1334830799]
 layout_mode = 2
-selected = 0
-item_count = 2
-popup/item_0/text = "Input"
-popup/item_0/id = 0
-popup/item_1/text = "Edit"
-popup/item_1/id = 1
 
-[node name="Label2" type="Label" parent="HBoxContainer" unique_id=1688697253]
+[node name="Label3" type="Label" parent="HBoxContainer" unique_id=461689966]
 layout_mode = 2
 text = "Grid Division"
 

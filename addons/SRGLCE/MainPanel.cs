@@ -53,6 +53,37 @@ public partial class MainPanel : Control
             case Key k when Key.Key0 <= k && k <= Key.Key9:
             _cr.GridDivision = (int)(k - Key.Key0);
             break;
+
+            // clear selection
+            case Key.Escape:
+            _ec.Deselect();
+            break;
+
+            // switch mode
+            case Key.Quoteleft:
+            _ec.SetMode((_ec.Mode == Common.ModeMenu.Input)? Common.ModeMenu.Edit: Common.ModeMenu.Input);
+            break;
+
+            // ======== switch type ========
+            case Key.Q:
+            _ec.SetType(Common.TypeMenu.Metadata);
+            break;
+
+            case Key.W:
+            _ec.SetType(Common.TypeMenu.Tempo);
+            break;
+
+            case Key.E:
+            _ec.SetType(Common.TypeMenu.TimeSignature);
+            break;
+
+            case Key.R:
+            _ec.SetType(Common.TypeMenu.SvChange);
+            break;
+
+            case Key.T:
+            _ec.SetType(Common.TypeMenu.Note);
+            break;
         }
     }
 
@@ -92,7 +123,8 @@ public partial class MainPanel : Control
         switch(buttonIndex)
         {
             case MouseButton.Left:
-            _ec.OnMouseButtonPressed(_cr.GetLocalMousePosition());
+            if(_ec.Mode == Common.ModeMenu.Input) { _ec.Insert(_cr.GetLocalMousePosition()); }
+            else { _ec.Select(_cr.GetLocalMousePosition()); }
             break;
 
             case MouseButton.WheelUp:

@@ -65,6 +65,12 @@ public partial class ChartEditorPlugin : EditorPlugin
         {
             _mp.Visible = visible;
         }
+
+        if(_dock_ci != null)
+        {
+            if(visible) { _dock_ci.MakeVisible(); }
+            else { _dock_ci.Close(); }
+        }
     }
 
     public override string _GetPluginName()

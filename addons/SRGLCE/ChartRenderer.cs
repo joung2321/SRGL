@@ -44,7 +44,7 @@ public partial class ChartRenderer : Node2D
 
     // mode and selection
     private TypeMenu _type = TypeMenu.Metadata;
-    private long _selectedTick = -1;
+    private long _selectedIndex = -1;
     private int _selectedLane = -1;
 
     // public properties
@@ -85,7 +85,8 @@ public partial class ChartRenderer : Node2D
     public void ZoomY(int deltaZoomPercent) { _zoomYPercent = Math.Clamp(_zoomYPercent + deltaZoomPercent, MinZoomPercent, MaxZoomPercent); }
 
     // mode and selection
-    public void SetType(TypeMenu mode) { _type = mode; }
+    public void Select(TypeMenu type, long index, int lane = -1) { _type = type; _selectedIndex = index; _selectedLane = lane; }
+    public void Deselect() { _selectedIndex = -1; _selectedLane = -1; }
 
     private void UpdateTransform()
     {
@@ -184,7 +185,10 @@ public partial class ChartRenderer : Node2D
             // skip current time signature
             if(endTick <= _minRenderTick)
             {
-                measureNumber += (endTick - ts.StartTick) / tpm;
+                long skippedMeasures = (endTick - ts.StartTick) / tpm;
+                if((endTick - ts.StartTick) % tpm != 0) { skippedMeasures++; } // incomplete measure
+
+                measureNumber += skippedMeasures;
                 continue;
             }
 
@@ -255,7 +259,7 @@ public partial class ChartRenderer : Node2D
             _seo_t[count].Scale = invScale;
             _seo_t[count].Render(list[i], posX);
             _seo_t[count].SetActive(true);
-            _seo_t[count].SetSelected(_type == TypeMenu.Tempo);
+            _seo_t[count].SetSelected(_type == TypeMenu.Tempo && _selectedIndex == i);
         }
 
         // hide unused objects
@@ -286,6 +290,7 @@ public partial class ChartRenderer : Node2D
             _seo_ts[count].Scale = invScale;
             _seo_ts[count].Render(list[i], 0);
             _seo_ts[count].SetActive(true);
+            _seo_ts[count].SetSelected(_type == TypeMenu.TimeSignature && _selectedIndex == i);
         }
         
         // hide unused objects
@@ -317,6 +322,7 @@ public partial class ChartRenderer : Node2D
             _seo_svc[count].Scale = invScale;
             _seo_svc[count].Render(list[i], posX);
             _seo_svc[count].SetActive(true);
+            _seo_svc[count].SetSelected(_type == TypeMenu.SvChange && _selectedIndex == i);
         }
 
         // hide unused objects
@@ -352,6 +358,7 @@ public partial class ChartRenderer : Node2D
 
                 _seo_n[count].Render(list[i], posX, invScaleY);
                 _seo_n[count].SetActive(true);
+                _seo_n[count].SetSelected(_type == TypeMenu.Note && _selectedIndex == i && _selectedLane == laneIndex);
             }
         }
         

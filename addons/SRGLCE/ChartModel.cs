@@ -224,7 +224,7 @@ public class ChartModel
         RawChart.RawSvChange tmp = new RawChart.RawSvChange{ StartTick = startTick };
         return _svChanges.BinarySearch(tmp);
     }
-
+    
     public int IndexOfNoteAt(long startTick, int laneIndex)
     {
         if(laneIndex < 0 || laneIndex >= _lanes.Count) { throw new SrglException("invalid laneIndex"); }

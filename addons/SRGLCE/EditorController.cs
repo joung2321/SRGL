@@ -16,11 +16,35 @@ public partial class EditorController : Node
 
     private FileDialog _fd;
     private PopupMenu _pm_file;
-    private PopupMenu _pm_type;
+    private OptionButton _ob_type;
     // private PopupMenu _pm_grid;
     private OptionButton _ob_mode;
     private LineEdit _le_gridDivision;
 
+    // selection
+    long _selectedIndex;
+    int _selectedLane;
+
+    // public properties
+    public TypeMenu Type => _type;
+    public ModeMenu Mode => _mode;
+
+    public void SetType(TypeMenu type)
+    {
+        if(_type != type)
+        {
+            Deselect();
+            _type = type;
+            _ob_type.Select((int)type);
+            _ci.SetType(type);
+        }
+    }
+    public void SetMode(ModeMenu mode)
+    {
+        _mode = mode; _ob_mode.Select((int)mode);
+        _ci.SetMode(mode);
+    }
+    
     public void Init(Control mainPanel, ChartModel cm, ChartRenderer cr, ChartInspector ci)
     {
         _mp = mainPanel;
@@ -34,7 +58,6 @@ public partial class EditorController : Node
         // unsubscribe event
         _fd.FileSelected -= OnFileSelected;
         _pm_file.IdPressed -= OnFileMenuPressed;
-        _pm_type.IdPressed -= OnTypeMenuPressed;
     }
 
     public override void _Ready()
@@ -67,20 +90,19 @@ public partial class EditorController : Node
             _pm_file.IdPressed += OnFileMenuPressed;
         }
 
-        // "Type" PopupMenu
-        _pm_type = mb.GetNode<PopupMenu>("Type");
+        // "Type" OptionButton
+        _ob_type = (OptionButton)_mp.FindChild("Type");
 
-        if(_pm_type != null)
+        if(_ob_type != null)
         {
-            _pm_type.Clear();
-
+            _ob_type.Clear();
             foreach(TypeMenu x in Enum.GetValues(typeof(TypeMenu)))
             {
-                _pm_type.AddItem(x.ToString(), (int)x);
+                _ob_type.AddItem(x.ToString(), (int)x);
             }
-
-            _pm_type.IdPressed += OnTypeMenuPressed;
         }
+        _ob_type.Selected = (int)_mode;
+        _ob_type.ItemSelected += OnTypeSelected;
         // ======== end ========
 
         // "Mode" OptionButton
@@ -123,14 +145,13 @@ public partial class EditorController : Node
     private void OnTypeMenuPressed(long id)
     {
         _type = (TypeMenu)id;
-        _cr.SetType(_type);
+        _cr.Deselect();
         _ci.SetType(_type);
     }
 
-    private void OnModeSelected(long id)
-    {
-        _mode = (ModeMenu)id;
-    }
+    private void OnTypeSelected(long id) { _type = (TypeMenu)id; }
+
+    private void OnModeSelected(long id) { _mode = (ModeMenu)id; }
 
     private void OnFileMenuPressed(long id)
     {
@@ -158,16 +179,10 @@ public partial class EditorController : Node
     }
 
     /// <param name="localMousePos">ChartRenderer.GetLocalMousePosition()</param>
-    public void OnMouseButtonPressed(Vector2 localMousePos)
+    public void Insert(Vector2 localMousePos)
     {
-        int lane = _cr.SnapToLane(localMousePos.X);
         long tick = _cr.SnapToGrid(localMousePos.Y, true);
-
-        if(_mode == ModeMenu.Edit)
-        {
-            GD.Print("you can't add object in edit mode!");
-            return;
-        }
+        int lane = _cr.SnapToLane(localMousePos.X);
 
         switch(_type)
         {
@@ -187,5 +202,43 @@ public partial class EditorController : Node
             _cm.InsertNote(new SRGL.RawChart.RawNote{ StartTick = tick, Lane = lane });
             break;
         }
+    }
+
+    /// <param name="localMousePos">ChartRenderer.GetLocalMousePosition()</param>
+    public void Select(Vector2 localMousePos)
+    {
+        long tick = _cr.SnapToGrid(localMousePos.Y, false);
+        int lane = _cr.SnapToLane(localMousePos.X);
+        int index = -1;
+
+        switch(_type)
+        {
+            case TypeMenu.Tempo:
+            index = _cm.IndexOfTempoAt(tick);
+            break;
+
+            case TypeMenu.TimeSignature:
+            index = _cm.IndexOfTimeSignatureAt(tick);
+            break;
+
+            case TypeMenu.SvChange:
+            index = _cm.IndexOfSvChangeAt(tick);
+            break;
+
+            case TypeMenu.Note:
+            if(lane < 0 || lane >= _cm.LaneCount) { return; }
+            index = _cm.IndexOfNoteAt(tick, lane);
+            break;
+        }
+
+        if(index < 0) { index = ~index - 1; }
+        _cr.Select(_type, index, lane);
+    }
+
+    public void Deselect()
+    {
+        _selectedIndex = -1;
+        _selectedLane = -1;
+        _cr.Deselect();
     }
 }
