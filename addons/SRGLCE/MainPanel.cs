@@ -16,11 +16,18 @@ public partial class MainPanel : Control
     // controller
     private EditorController _ec;
     
-    public void Init(ChartInspector ci) { _ci = ci; }
+    private bool _initialized = false; // validity of _ci (ChartInspector)
+    public void Init(ChartInspector ci)
+    {
+        _ci = ci;
+        _initialized = ci != null;
+    }
 
     public override void _Ready()
     {
-        // confugure Control node
+        if(!_initialized) { return; }
+
+        // configure Control node
         ClipContents= true;
         SetAnchorsPreset(LayoutPreset.FullRect);
         SizeFlagsHorizontal = SizeFlags.ExpandFill;
@@ -50,10 +57,6 @@ public partial class MainPanel : Control
             _cr.ResetScroll();
             break;
             
-            case Key k when Key.Key0 <= k && k <= Key.Key9:
-            _cr.GridDivision = (int)(k - Key.Key0);
-            break;
-
             // clear selection
             case Key.Escape:
             _ec.Deselect();
@@ -101,7 +104,7 @@ public partial class MainPanel : Control
     // keyboard input router
     public override void _UnhandledKeyInput(InputEvent @event)
     {
-        if(@event is not InputEventKey ek || !ek.Pressed || ek.Echo) { return; }
+        if(!_initialized || @event is not InputEventKey ek || !ek.Pressed || ek.Echo) { return; }
 
         switch((ek.CtrlPressed, ek.ShiftPressed))
         {
@@ -125,6 +128,10 @@ public partial class MainPanel : Control
             case MouseButton.Left:
             if(_ec.Mode == Common.ModeMenu.Input) { _ec.Insert(_cr.GetLocalMousePosition()); }
             else { _ec.Select(_cr.GetLocalMousePosition()); }
+            break;
+            
+            case MouseButton.Right:
+            _ec.RemoveSelected();
             break;
 
             case MouseButton.WheelUp:
@@ -151,6 +158,16 @@ public partial class MainPanel : Control
         }
     }
 
+    private void HandleShiftMouseButton(MouseButton buttonIndex)
+    {
+        switch(buttonIndex)
+        {
+            case MouseButton.Left:
+            _ec.EditNoteEndTick(_cr.GetLocalMousePosition().Y);
+            break;
+        }
+    }
+
     private void HandleCtrlShiftMouseButton(MouseButton buttonIndex)
     {
         switch(buttonIndex)
@@ -168,7 +185,7 @@ public partial class MainPanel : Control
     // mouse input router
     public override void _GuiInput(InputEvent @event)
     {
-        if(@event is not InputEventMouseButton emb || !emb.Pressed || emb.IsEcho()) { return; }
+        if(!_initialized || @event is not InputEventMouseButton emb || !emb.Pressed || emb.IsEcho()) { return; }
 
         switch((emb.CtrlPressed, emb.ShiftPressed))
         {
@@ -178,6 +195,10 @@ public partial class MainPanel : Control
 
             case (true, false):
             HandleCtrlMouseButton(emb.ButtonIndex);
+            break;
+
+            case (false, true):
+            HandleShiftMouseButton(emb.ButtonIndex);
             break;
 
             case (true, true):

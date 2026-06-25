@@ -4,11 +4,12 @@
 [ext_resource type="Script" uid="uid://0cojosqn8sx0" path="res://addons/SRGLCE/editorObject/EditorNote.cs" id="1_wufxg"]
 [ext_resource type="Texture2D" uid="uid://dev6jjv1auo8a" path="res://addons/SRGLCE/editorObject/noteBody.jpeg" id="2_s4j1n"]
 
-[node name="EditorNote" type="Node2D" unique_id=250124258 node_paths=PackedStringArray("_head", "_body")]
+[node name="EditorNote" type="Node2D" unique_id=250124258 node_paths=PackedStringArray("_head", "_body", "_label")]
 texture_filter = 1
 script = ExtResource("1_wufxg")
 _head = NodePath("Head")
 _body = NodePath("Body")
+_label = NodePath("")
 
 [node name="Body" type="Sprite2D" parent="." unique_id=1749572882]
 texture = ExtResource("2_s4j1n")

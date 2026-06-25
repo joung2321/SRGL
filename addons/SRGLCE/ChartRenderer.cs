@@ -104,7 +104,7 @@ public partial class ChartRenderer : Node2D
     }
 
     /// <param name="localMousePosX">ChartRenderer.GetLocalMousePosition().X</param>
-    public int SnapToLane(float localMousePosX)
+    public int LocalPosXToLane(float localMousePosX)
     {
         int lane = Mathf.FloorToInt((localMousePosX + HalfGridWidth) / LaneWidth);
         return Math.Clamp(lane, -1, _cm.LaneCount);
@@ -114,7 +114,7 @@ public partial class ChartRenderer : Node2D
     /// Snaps to the bottom grid.
     /// </summary>
     /// <param name="localMousePosY">ChartRenderer.GetLocalMousePosition().Y</param>
-    public long SnapToGrid(float localMousePosY, bool snapToGrid = true)
+    public long LocalPosYToTick(float localMousePosY, bool snapToGrid = true)
     {
         long tick = (long)Mathf.Round(-localMousePosY);
         if(!snapToGrid) { return tick; }

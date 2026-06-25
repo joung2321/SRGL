@@ -10,10 +10,15 @@ using System.Text.Json;
 // a chart file which is currently open
 public class ChartModel
 {
+    // ======== constants ========
+    private const string CURRENT_FORMAT_VERSION = "0.1.0";
+    private const long DEFAULT_PPQN = 960;
+
+    // ======== public properties ========
     public string FilePath;
 
     // ======== metadata ========
-    public const string FormatVersion = "0.1.0"; // semantic versioning e.g.) 1.2.3
+    public const string FormatVersion = CURRENT_FORMAT_VERSION; // semantic versioning e.g.) 1.2.3
 
     public string Title;
     public string Composer;
@@ -29,7 +34,6 @@ public class ChartModel
     public string ImagePath;
     public string AudioPath = "";
 
-    private const long DEFAULT_PPQN = 960;
     private long _ppqn = DEFAULT_PPQN; // pulses per quarter note
     public long PPQN
     {
@@ -239,7 +243,7 @@ public class ChartModel
         _lanes.Insert(laneIndex, new List<RawChart.RawNote>(128));
     }
 
-    public void RemoveLane(int laneIndex)
+    public void DeleteLane(int laneIndex)
     {
         _lanes.RemoveAt(laneIndex);
     }
@@ -256,16 +260,17 @@ public class ChartModel
         }
     }
 
+    /// <summary>
+    /// Updates oldValue with newValue. StartTick is immutable.
+    /// </summary>
     public void UpdateTempo(RawChart.RawTempo oldValue, RawChart.RawTempo newValue)
     {
-        int oldIndex = _tempos.BinarySearch(oldValue);
-        if(oldIndex < 0) { return; }
+        int index = _tempos.BinarySearch(oldValue);
 
-        if(oldValue.StartTick == newValue.StartTick)
+        if(index >= 0 && newValue.IsValid())
         {
-            _tempos[oldIndex] = newValue;
+            _tempos[index] = newValue with { StartTick = oldValue.StartTick };
         }
-        else if(newValue.IsValid()) { InsertTempo(newValue); }
     }
 
     public void RemoveTempo(RawChart.RawTempo value)
@@ -274,6 +279,7 @@ public class ChartModel
         if(value.StartTick == 0) { return; }
 
         int index = _tempos.BinarySearch(value);
+        
         if(index >= 0)
         {
             _tempos.RemoveAt(index);
@@ -292,16 +298,17 @@ public class ChartModel
         }
     }
 
+    /// <summary>
+    /// Updates oldValue with newValue. StartTick is immutable.
+    /// </summary>
     public void UpdateTimeSignature(RawChart.RawTimeSignature oldValue, RawChart.RawTimeSignature newValue)
     {
-        int oldIndex = _timeSignatures.BinarySearch(oldValue);
-        if(oldIndex < 0) { return; }
+        int index = _timeSignatures.BinarySearch(oldValue);
 
-        if(oldValue.StartTick == newValue.StartTick)
+        if(index >= 0 && newValue.IsValid())
         {
-            _timeSignatures[oldIndex] = newValue;
+            _timeSignatures[index] = newValue with { StartTick = oldValue.StartTick };
         }
-        else if(newValue.IsValid()) { InsertTimeSignature(newValue); }
     }
 
     public void RemoveTimeSignature(RawChart.RawTimeSignature value)
@@ -310,6 +317,7 @@ public class ChartModel
         if(value.StartTick == 0) { return; }
 
         int index = _timeSignatures.BinarySearch(value);
+
         if(index >= 0)
         {
             _timeSignatures.RemoveAt(index);
@@ -328,24 +336,26 @@ public class ChartModel
         }
     }
 
+    /// <summary>
+    /// Updates oldValue with newValue. StartTick is immutable.
+    /// </summary>
     public void UpdateSvChange(RawChart.RawSvChange oldValue, RawChart.RawSvChange newValue)
     {
-        int oldIndex = _svChanges.BinarySearch(oldValue);
-        if(oldIndex < 0) { return; }
+        int index = _svChanges.BinarySearch(oldValue);
 
-        if(oldValue.StartTick == newValue.StartTick)
+        if(index >= 0 && newValue.IsValid())
         {
-            _svChanges[oldIndex] = newValue;
+            _svChanges[index] = newValue with { StartTick = oldValue.StartTick };
         }
-        else if(newValue.IsValid()) { InsertSvChange(newValue); }
     }
 
     public void RemoveSvChange(RawChart.RawSvChange value)
     {
-        // protect initial tempo
+        // protect initial sv change
         if(value.StartTick == 0) { return; }
 
         int index = _svChanges.BinarySearch(value);
+
         if(index >= 0)
         {
             _svChanges.RemoveAt(index);
@@ -356,44 +366,43 @@ public class ChartModel
     public void InsertNote(RawChart.RawNote value)
     {
         // check lane validity
-        if(!value.IsValid(LaneCount)) { return; }
+        if(GetLane(value.Lane) == null) { return; }
 
         int index = _lanes[value.Lane].BinarySearch(value);
 
-        if(index < 0)
+        if(index < 0 && value.IsValid(LaneCount))
         {
             index = ~index;
             _lanes[value.Lane].Insert(index, value);
         }
     }
 
+    /// <summary>
+    /// Updates oldValue with newValue. StartTick and Lane are immutable.
+    /// </summary>
     public void UpdateNote(RawChart.RawNote oldValue, RawChart.RawNote newValue)
     {
+        // StartTick and Lane are immutable
+        newValue = newValue with { StartTick = oldValue.StartTick, Lane = oldValue.Lane };
+
         // check lane validity
-        if(!oldValue.IsValid(LaneCount) || !newValue.IsValid(LaneCount)) { return; }
+        if(GetLane(newValue.Lane) == null) { return; }
 
-        int oldIndex = _lanes[oldValue.Lane].BinarySearch(oldValue);
-        if(oldIndex < 0) { return; }
+        int index = _lanes[newValue.Lane].BinarySearch(newValue);
 
-        if(oldValue.Lane == newValue.Lane && oldValue.StartTick == newValue.StartTick)
+        if(index >= 0 && newValue.IsValid(LaneCount))
         {
-            _lanes[oldValue.Lane][oldIndex] = newValue;
-        }
-        else
-        {
-            InsertNote(newValue);
-            
-            long newIndex = _lanes[newValue.Lane].BinarySearch(newValue);
-            if(newIndex >= 0) { RemoveNote(oldValue); }
+            _lanes[newValue.Lane][index] = newValue;
         }
     }
 
     public void RemoveNote(RawChart.RawNote value)
     {
         // check lane validity
-        if(!value.IsValid(LaneCount)) { return; }
+        if(GetLane(value.Lane) == null) { return; }
 
         int index = _lanes[value.Lane].BinarySearch(value);
+
         if(index >= 0)
         {
             _lanes[value.Lane].RemoveAt(index);

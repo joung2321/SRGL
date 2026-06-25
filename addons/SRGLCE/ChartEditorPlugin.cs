@@ -7,18 +7,18 @@ using Godot;
 [Tool]
 public partial class ChartEditorPlugin : EditorPlugin
 {
-    PackedScene _packed_mp = ResourceLoader.Load<PackedScene>("res://addons/SRGLCE/MainPanel.tscn");
-    PackedScene _packed_ci = ResourceLoader.Load<PackedScene>("res://addons/SRGLCE/ChartInspector.tscn");
-
     // GUI
     MainPanel _mp;
     EditorDock _dock_ci;
-
+    
 	// when plugin enabled
     public override void _EnterTree()
     {
+        // load scenes
+        PackedScene packed_mp = ResourceLoader.Load<PackedScene>("res://addons/SRGLCE/MainPanel.tscn");
+
         // chart inspector
-        ChartInspector ci = _packed_ci.Instantiate<ChartInspector>();
+        ChartInspector ci = new ChartInspector();
         _dock_ci = new EditorDock();
         _dock_ci.AddChild(ci);
         _dock_ci.DefaultSlot = EditorDock.DockSlot.RightUl;
@@ -26,7 +26,7 @@ public partial class ChartEditorPlugin : EditorPlugin
         AddDock(_dock_ci);
 
         // main panel
-        _mp = (MainPanel)_packed_mp.Instantiate();
+        _mp = (MainPanel)packed_mp.Instantiate();
         _mp.Init(ci); // before calling AddChild(MainPanel), pass ChartInspector to MainPanel
         EditorInterface.Singleton.GetEditorMainScreen().AddChild(_mp); // Add the main panel to the editor's main viewport.
 
